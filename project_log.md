@@ -134,5 +134,4 @@ WHAT:
 hintr: find the best options among your friends
 
 
-
-
+images: /user_stories_mockups
