@@ -10,7 +10,7 @@ gem 'pg'
 gem 'haml-rails'
 gem 'thin'
 
-gem 'omniauth-facebook'
+gem 'omniauth-facebook', '1.4.0'
 gem 'koala'
 
 group :development, :test do
