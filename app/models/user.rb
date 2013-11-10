@@ -9,7 +9,6 @@ class User < ActiveRecord::Base
       user.image = auth.info.image
       user.location = auth.info.location
       user.save!
-      binding.pry
     end
   end
 end
