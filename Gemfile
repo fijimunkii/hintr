@@ -10,8 +10,8 @@ gem 'pg'
 gem 'haml-rails'
 gem 'thin'
 
-gem 'omniauth-facebook', '1.4.0'
-gem 'koala'
+gem 'omniauth-facebook', '1.4.0' # https://github.com/mkdynamic/omniauth-facebook
+gem 'koala' # https://github.com/arsduo/koala
 
 group :development, :test do
   gem 'erb2haml'            # Converts erb files to haml
