@@ -11,6 +11,7 @@ gem 'haml-rails'
 gem 'thin'
 
 gem 'omniauth-facebook'
+gem 'koala'
 
 group :development, :test do
   gem 'erb2haml'            # Converts erb files to haml
