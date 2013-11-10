@@ -10,6 +10,8 @@ gem 'pg'
 gem 'haml-rails'
 gem 'thin'
 
+gem 'omniauth-facebook'
+
 group :development, :test do
   gem 'erb2haml'            # Converts erb files to haml
   # https://github.com/dhl/erb2haml
