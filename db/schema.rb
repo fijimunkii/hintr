@@ -11,11 +11,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131111155720) do
+ActiveRecord::Schema.define(:version => 20131111212059) do
+
+  create_table "likes", :force => true do |t|
+    t.integer  "match_id"
+    t.string   "fb_id"
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "matches", :force => true do |t|
-    t.integer  "user_a_id"
-    t.integer  "user_b_id"
+    t.integer  "user_id"
+    t.integer  "related_user_id"
     t.integer  "weight"
     t.string   "name"
     t.string   "profile_picture"

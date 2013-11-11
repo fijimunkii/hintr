@@ -2,25 +2,32 @@
 #
 # Table name: users
 #
-#  id               :integer          not null, primary key
-#  provider         :string(255)
-#  uid              :string(255)
-#  name             :string(255)
-#  oauth_token      :string(255)
-#  oauth_expires_at :datetime
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  image            :string(255)
-#  location         :string(255)
+#  id                  :integer          not null, primary key
+#  provider            :string(255)
+#  fb_id               :string(255)
+#  name                :string(255)
+#  gender              :string(255)
+#  interested_in       :string(255)
+#  relationship_status :string(255)
+#  location            :string(255)
+#  profile_picture     :string(255)
+#  date_of_birth       :date
+#  oauth_token         :string(255)
+#  oauth_expires_at    :datetime
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
 #
 
 class User < ActiveRecord::Base
-
   attr_accessible :provider, :uid, :name, :oauth_token, :oauth_expires_at, :image, :location
 
-  has_many :hints
-  has_many :matches
-  has_many :likes, :through => :matches
+  has_many :pictures
+
+  has_many :related_users_association, :class_name => "Match"
+  has_many :related_users, :through => :related_users_association, :source => :related_user
+  has_many :inverse_related_users_association, :class_name => "Match", :foreign_key => "related_user_id"
+  has_many :inverse_related_users, :through => :inverse_related_users_association, :source => :user
+
 
   # creates the User from info received back from facebook authentication
   def self.from_omniauth(auth)
@@ -64,18 +71,18 @@ class User < ActiveRecord::Base
     friends = self.facebook.get_connections(user['id'], 'friends')
     friends.each do |friend|
 
-      hint_object = self.facebook.get_object(friend['id']) #objectify.. in a good way
-      if hint_object['gender'] == 'female' #TODO make this reference self.interested_in
+      friend_object = self.facebook.get_object(friend['id']) #objectify.. in a good way
+      if friend_object['gender'] == 'female' #TODO make this reference self.interested_in
 
         #find the hint or create a new one
         User.where(fb_id: friend['id']).first_or_initialize.tap do |hint|
           hint.user_id = self.id
-          hint.fb_id = hint_object['id']
-          hint.name = hint_object['name']
-          if hint_object['location']
-            hint.location = hint_object['location']['name'] if hint_object['location']['name']
+          hint.fb_id = friend_object['id']
+          hint.name = friend_object['name']
+          if friend_object['location']
+            hint.location = friend_object['location']['name'] if friend_object['location']['name']
           end
-          hint.gender = hint_object['gender'] if hint_object['gender']
+          hint.gender = friend_object['gender'] if friend_object['gender']
           hint.profile_picture = self.facebook.get_picture(hint.fb_id, { :width => 720, :height => 720 })
           hint.save!
 
@@ -84,7 +91,19 @@ class User < ActiveRecord::Base
             match.user_b_id = hint.id
             match.name = hint.name
             match.profile_picture = hint.profile_picture
-            match.weight = self.facebook.fql_query("SELECT page_id FROM page_fan WHERE uid= #{self.fb_id} AND page_id IN (SELECT page_id FROM page_fan WHERE uid = #{hint.fb_id})").length
+            likes = self.facebook.fql_query("SELECT page_id FROM page_fan WHERE uid= #{self.fb_id} AND page_id IN (SELECT page_id FROM page_fan WHERE uid = #{hint.fb_id})")
+            match.weight = likes.length
+            match.save!
+
+            likes.each do |like|
+              Like.where(match_id: match.id, fb_id: like['id']).first_or_initialize.tap do |new_like|
+                new_like.match_id = match.id
+                new_like.fb_id = like['id']
+                new_like.name = like['name']
+                new_like.save!
+              end
+            end
+
           end # match
 
         end # Hint

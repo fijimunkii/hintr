@@ -2,19 +2,22 @@
 #
 # Table name: matches
 #
-#  id         :integer          not null, primary key
-#  like_id    :integer
-#  user_id    :integer
-#  hint_id    :integer
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id              :integer          not null, primary key
+#  user_id         :integer
+#  related_user_id :integer
+#  weight          :integer
+#  name            :string(255)
+#  profile_picture :string(255)
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
 #
 
 class Match < ActiveRecord::Base
-  attr_accessible :like_id, :user_id, :hint_id
+  attr_accessible :user_id, :related_user_id, :weight, :name, :profile_picture
 
-  belongs_to :like
   belongs_to :user
-  belongs_to :hint
+  belongs_to :related_user, :class_name => "User"
+
+  has_many :likes
 
 end

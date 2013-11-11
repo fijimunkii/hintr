@@ -3,17 +3,16 @@
 # Table name: likes
 #
 #  id         :integer          not null, primary key
+#  match_id   :integer
+#  fb_id      :string(255)
 #  name       :string(255)
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  fb_id      :string(255)
 #
 
 class Like < ActiveRecord::Base
-  attr_accessible :fb_id, :name
+  attr_accessible :match_id, :fb_id, :name
 
-  has_many :matches
-  has_many :users, :through => :matches
-  has_many :hints, :through => :matches
+  belongs_to :match
 
 end

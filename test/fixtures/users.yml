@@ -2,16 +2,20 @@
 #
 # Table name: users
 #
-#  id               :integer          not null, primary key
-#  provider         :string(255)
-#  uid              :string(255)
-#  name             :string(255)
-#  oauth_token      :string(255)
-#  oauth_expires_at :datetime
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  image            :string(255)
-#  location         :string(255)
+#  id                  :integer          not null, primary key
+#  provider            :string(255)
+#  fb_id               :string(255)
+#  name                :string(255)
+#  gender              :string(255)
+#  interested_in       :string(255)
+#  relationship_status :string(255)
+#  location            :string(255)
+#  profile_picture     :string(255)
+#  date_of_birth       :date
+#  oauth_token         :string(255)
+#  oauth_expires_at    :datetime
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
