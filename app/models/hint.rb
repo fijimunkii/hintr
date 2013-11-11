@@ -22,5 +22,6 @@ class Hint < ActiveRecord::Base
 
   belongs_to :user
   has_many :pictures
+  has_many :matches
   has_many :likes, :through => :matches
 end

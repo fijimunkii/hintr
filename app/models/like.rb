@@ -12,6 +12,7 @@
 class Like < ActiveRecord::Base
   attr_accessible :fb_id, :name
 
+  has_many :matches
   has_many :users, :through => :matches
   has_many :hints, :through => :matches
 

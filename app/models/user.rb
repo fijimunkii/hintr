@@ -19,7 +19,8 @@ class User < ActiveRecord::Base
   attr_accessible :provider, :uid, :name, :oauth_token, :oauth_expires_at, :image, :location
 
   has_many :hints
-  has_many :likes
+  has_many :matches
+  has_many :likes, :through => :matches
 
   # creates the User from info received back from facebook authentication
   def self.from_omniauth(auth)
