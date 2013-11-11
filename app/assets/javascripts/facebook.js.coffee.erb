@@ -6,7 +6,6 @@ jQuery ->
     dataType: 'script'
     cache: true
 
-
   window.fbAsyncInit = ->
     FB.init(appId: '<%= ENV["HINTR_FACEBOOK_KEY"] %>', cookie: true)
     <%# http://stackoverflow.com/a/7177200/2961808 %>
@@ -14,9 +13,10 @@ jQuery ->
 
     $('#sign_in').click (e) ->
       e.preventDefault()
-      FB.login (response) ->
+      FB.login ((response) ->
         <%# TODO Reflow this with ajax %>
-        window.location = '/auth/facebook/callback' if response.authResponse
+        <%# requesting scope http://stackoverflow.com/a/12663627/2474735 %>
+        window.location = '/auth/facebook/callback' if response.authResponse), scope: "email, user_birthday, user_likes, user_relationships, user_relationship_details, friends_birthday, friends_likes, friends_location, friends_relationships, friends_relationship_details, friends_religion_politics, friends_checkins"
 
     $('#sign_out').click (e) ->
       FB.getLoginStatus (response) ->

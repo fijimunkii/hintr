@@ -11,11 +11,48 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131110065626) do
+ActiveRecord::Schema.define(:version => 20131111191414) do
+
+  create_table "hints", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "age"
+    t.string   "name"
+    t.string   "gender"
+    t.string   "interested_in"
+    t.string   "relationship_status"
+    t.string   "location"
+    t.integer  "score"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+    t.string   "profile_picture"
+    t.string   "fb_id"
+  end
+
+  create_table "likes", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.string   "fb_id"
+  end
+
+  create_table "matches", :force => true do |t|
+    t.integer  "like_id"
+    t.integer  "user_id"
+    t.integer  "hint_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "pictures", :force => true do |t|
+    t.string   "url"
+    t.integer  "hint_id"
+    t.integer  "num_likes"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "provider"
-    t.string   "uid"
     t.string   "name"
     t.string   "oauth_token"
     t.datetime "oauth_expires_at"
@@ -23,6 +60,7 @@ ActiveRecord::Schema.define(:version => 20131110065626) do
     t.datetime "updated_at",       :null => false
     t.string   "image"
     t.string   "location"
+    t.string   "uid"
   end
 
 end
