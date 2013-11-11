@@ -16,8 +16,20 @@
 
 class User < ActiveRecord::Base
 
+  attr_accessible :provider, :uid, :name, :oauth_token, :oauth_expires_at, :image, :location
+
+  has_many :hints
+  has_many :likes
+
   # creates the User from info received back from facebook authentication
   def self.from_omniauth(auth)
+
+    # immediately get 60 day auth token
+    oauth = Koala::Facebook::OAuth.new(ENV["HINTR_FACEBOOK_KEY"], ENV["HINTR_FACEBOOK_SECRET"])
+    new_access_info = oauth.exchange_access_token_info auth.credentials.token
+
+    new_access_token = new_access_info["access_token"]
+    new_access_expires_at = DateTime.now + new_access_info["expires"].to_i.seconds
 
     # if the user already exists, update
     # if user does not exist, create
@@ -27,8 +39,8 @@ class User < ActiveRecord::Base
       user.provider = auth.provider
       user.uid = auth.uid
       user.name = auth.info.name
-      user.oauth_token = auth.credentials.token
-      user.oauth_expires_at = Time.at(auth.credentials.expires_at)
+      user.oauth_token = new_access_token #originally auth.credentials.token
+      user.oauth_expires_at = new_access_expires_at #originally Time.at(auth.credentials.expires_at)
       user.image = auth.info.image
       user.location = auth.info.location
       user.save!
@@ -43,23 +55,19 @@ class User < ActiveRecord::Base
 
   def scrape_facebook
 
-    binding.pry
-
     user = self.facebook.get_object('me')
     friends = graph.get_connections(user['id'], 'friends')
     friends.each do |friend|
 
-      binding.pry
-
       self.facebook.batch do |batch_api|
 
-        binding.pry
-
         hint = Hint.new
-        hint.id = friend['id']
+        hint.user_id = self.id
+        hint.fb_id = friend['id']
         hint.name = friend['name']
         hint.profile_picture = batch_api.get_picture(hint.id)
         hint.save
+
       end
     end
 
