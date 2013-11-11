@@ -7,18 +7,18 @@ jQuery ->
     cache: true
 
 
-window.fbAsyncInit = ->
-  FB.init(appId: '<%= ENV["HINTR_FACEBOOK_KEY"] %>', cookie: true)
-  <%# http://stackoverflow.com/a/7177200/2961808 %>
-  <%# cookie set to false due to application key error %>
+  window.fbAsyncInit = ->
+    FB.init(appId: '<%= ENV["HINTR_FACEBOOK_KEY"] %>', cookie: true)
+    <%# http://stackoverflow.com/a/7177200/2961808 %>
+    <%# cookie set to false due to application key error %>
 
-  $('#sign_in').click (e) ->
-    e.preventDefault()
-    FB.login (response) ->
-      <%# TODO Reflow this with ajax %>
-      window.location = '/auth/facebook/callback' if response.authResponse
+    $('#sign_in').click (e) ->
+      e.preventDefault()
+      FB.login (response) ->
+        <%# TODO Reflow this with ajax %>
+        window.location = '/auth/facebook/callback' if response.authResponse
 
-  $('#sign_out').click (e) ->
-    FB.getLoginStatus (response) ->
-      FB.logout() if response.authResponse
-    true
+    $('#sign_out').click (e) ->
+      FB.getLoginStatus (response) ->
+        FB.logout() if response.authResponse
+      true
