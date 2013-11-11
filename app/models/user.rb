@@ -1,3 +1,19 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id               :integer          not null, primary key
+#  provider         :string(255)
+#  uid              :string(255)
+#  name             :string(255)
+#  oauth_token      :string(255)
+#  oauth_expires_at :datetime
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  image            :string(255)
+#  location         :string(255)
+#
+
 class User < ActiveRecord::Base
 
   # creates the User from info received back from facebook authentication
@@ -6,6 +22,8 @@ class User < ActiveRecord::Base
     # if the user already exists, update
     # if user does not exist, create
     where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
+
+      # initial pull from facebook
       user.provider = auth.provider
       user.uid = auth.uid
       user.name = auth.info.name
@@ -40,7 +58,7 @@ class User < ActiveRecord::Base
         hint = Hint.new
         hint.id = friend['id']
         hint.name = friend['name']
-        hint.img = batch_api.get_picture(hint.id)
+        hint.profile_picture = batch_api.get_picture(hint.id)
         hint.save
       end
     end
