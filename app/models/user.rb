@@ -17,4 +17,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def facebook
+    # creates a facebook variable that can be used
+    # for interacting with the users info on facebook
+    @facebook ||= Koala::Facebook::API.new(oauth_token)
+  end
+
 end
