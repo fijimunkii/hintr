@@ -25,6 +25,7 @@ class User < ActiveRecord::Base
   def self.from_omniauth(auth)
 
     # immediately get 60 day auth token
+    # https://github.com/mkdynamic/omniauth-facebook/issues/23#issuecomment-15565902
     oauth = Koala::Facebook::OAuth.new(ENV["HINTR_FACEBOOK_KEY"], ENV["HINTR_FACEBOOK_SECRET"])
     new_access_info = oauth.exchange_access_token_info auth.credentials.token
 
@@ -56,19 +57,25 @@ class User < ActiveRecord::Base
   def scrape_facebook
 
     user = self.facebook.get_object('me')
-    friends = graph.get_connections(user['id'], 'friends')
+    friends = self.facebook.get_connections(user['id'], 'friends')
     friends.each do |friend|
 
       self.facebook.batch do |batch_api|
+        hint_object = self.facebook.get_object(friend['id']) #objectify.. in a good way
+        if hint_object['gender'] == female #TODO make this reference self.interested_in
 
-        hint = Hint.new
-        hint.user_id = self.id
-        hint.fb_id = friend['id']
-        hint.name = friend['name']
-        hint.profile_picture = batch_api.get_picture(hint.id)
-        hint.save
+          #find the hint or create a new one
+          Hint.where(user_id: self.id, fb_id: friend['id']).first_or_initialize.tap do |hint|
+            hint.user_id = self.id
+            hint.fb_id = hint_object['id']
+            hint.name = hint_object['name']
+            hint.profile_picture = batch_api.get_picture(hint_object.id)
+            hint.save!
+          end
 
+        end
       end
+
     end
 
   end
