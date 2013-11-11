@@ -10,17 +10,16 @@ facebook : long lived user_access token
 
 
 ##Routes
-root to: ‘welcome#index’
+root to: 'welcome#index'
 
-//this will be from FB auth -- http://railscasts.com/episodes/360-facebook-authentication
-post ‘/login’ => ‘session#create’
-get ‘/logout’ => ‘session#destroy’
+  match 'auth/:provider/callback', to: 'sessions#create'
+  match 'auth/failure', to: redirect('/')
+  match 'signout', to: 'sessions#destroy', as: 'signout'
+
 
 resources :users do
-resources :likes
-resources :hints do
-resources :likes
-end
+  resources :pictures
+  resources :matches
 end
 
 
