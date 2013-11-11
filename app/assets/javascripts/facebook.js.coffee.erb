@@ -8,6 +8,7 @@ jQuery ->
 
 
 window.fbAsyncInit = ->
+  FB.getLoginStatus()
   FB.init(appId: '<%= ENV["HINTR_FACEBOOK_KEY"] %>', cookie: true)
   <%# http://stackoverflow.com/a/7177200/2961808 %>
   <%# cookie set to false due to application key error %>
