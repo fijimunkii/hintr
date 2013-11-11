@@ -39,7 +39,7 @@ class User < ActiveRecord::Base
 
       # initial pull from facebook
       user.provider = auth.provider
-      user.uid = auth.uid
+      user.fb_id = auth.uid
       user.name = auth.info.name
       user.oauth_token = new_access_token #originally auth.credentials.token
       user.oauth_expires_at = new_access_expires_at #originally Time.at(auth.credentials.expires_at)
@@ -68,30 +68,27 @@ class User < ActiveRecord::Base
       if hint_object['gender'] == 'female' #TODO make this reference self.interested_in
 
         #find the hint or create a new one
-        Hint.where(user_id: self.id, fb_id: friend['id']).first_or_initialize.tap do |hint|
+        User.where(fb_id: friend['id']).first_or_initialize.tap do |hint|
           hint.user_id = self.id
           hint.fb_id = hint_object['id']
           hint.name = hint_object['name']
-          hint.location = hint_object['location']['name']
-          hint.gender = hint_object['gender']
+          if hint_object['location']
+            hint.location = hint_object['location']['name'] if hint_object['location']['name']
+          end
+          hint.gender = hint_object['gender'] if hint_object['gender']
           hint.profile_picture = self.facebook.get_picture(hint.fb_id, { :width => 720, :height => 720 })
           hint.save!
 
-          likes = self.facebook.get_connections(hint_object['id'], 'likes')
-          likes.each do |like|
-            Like.where(fb_id: like['id']).first_or_initialize.tap do |update_like|
-              update_like.fb_id = like['id']
-              update_like.name = like['name']
-              update_like.save!
+          Match.where(user_a_id: self.id, user_b_id: hint.id).first_or_initialize.tap do |match|
+            match.user_a_id = self.id
+            match.user_b_id = hint.id
+            match.name = hint.name
+            match.profile_picture = hint.profile_picture
+            match.weight = self.facebook.fql_query("SELECT page_id FROM page_fan WHERE uid= #{self.fb_id} AND page_id IN (SELECT page_id FROM page_fan WHERE uid = #{hint.fb_id})").length
+          end # match
 
-              Match.where(hint_id: hint.id, like_id: update_like.id).first_or_initialize.tap do |update_match|
-                update_match.like_id = update_like.id
-                update_match.hint_id = hint.id
-                update_match.save!
-              end #Match
-            end #Like
-          end #likes.each
         end # Hint
+
       end #if gender
 
     end # friends.each

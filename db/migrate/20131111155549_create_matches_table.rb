@@ -1,9 +1,11 @@
 class CreateMatchesTable < ActiveRecord::Migration
   def change
     create_table :matches do |t|
-      t.integer :like_id
-      t.integer :user_id
-      t.integer :hint_id
+      t.integer :user_a_id
+      t.integer :user_b_id
+      t.integer :weight
+      t.string :name
+      t.string :profile_picture
 
       t.timestamps
     end
