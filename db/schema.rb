@@ -11,7 +11,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131110065626) do
+ActiveRecord::Schema.define(:version => 20131111154425) do
+
+  create_table "hints", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "fb_id",               :limit => 8
+    t.integer  "age"
+    t.string   "name"
+    t.string   "gender"
+    t.string   "interested_in"
+    t.string   "relationship_status"
+    t.string   "location"
+    t.integer  "score"
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "provider"

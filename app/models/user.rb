@@ -25,10 +25,18 @@ class User < ActiveRecord::Base
 
   def scrape_facebook
 
+    binding.pry
+
     user = self.facebook.get_object('me')
     friends = graph.get_connections(user['id'], 'friends')
     friends.each do |friend|
+
+      binding.pry
+
       self.facebook.batch do |batch_api|
+
+        binding.pry
+
         hint = Hint.new
         hint.id = friend['id']
         hint.name = friend['name']
