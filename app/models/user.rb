@@ -1,5 +1,10 @@
 class User < ActiveRecord::Base
+
+  # creates the User from info received back from facebook authentication
   def self.from_omniauth(auth)
+
+    # if the user already exists, update
+    # if user does not exist, create
     where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
       user.provider = auth.provider
       user.uid = auth.uid
@@ -11,4 +16,5 @@ class User < ActiveRecord::Base
       user.save!
     end
   end
+
 end
