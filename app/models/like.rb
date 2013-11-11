@@ -3,10 +3,10 @@
 # Table name: likes
 #
 #  id         :integer          not null, primary key
-#  fb_id      :integer
 #  name       :string(255)
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  fb_id      :string(255)
 #
 
 class Like < ActiveRecord::Base

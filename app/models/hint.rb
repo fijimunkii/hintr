@@ -4,7 +4,6 @@
 #
 #  id                  :integer          not null, primary key
 #  user_id             :integer
-#  fb_id               :integer
 #  age                 :integer
 #  name                :string(255)
 #  gender              :string(255)
@@ -15,6 +14,7 @@
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  profile_picture     :string(255)
+#  fb_id               :string(255)
 #
 
 class Hint < ActiveRecord::Base

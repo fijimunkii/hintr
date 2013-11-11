@@ -11,11 +11,10 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131111190447) do
+ActiveRecord::Schema.define(:version => 20131111191414) do
 
   create_table "hints", :force => true do |t|
     t.integer  "user_id"
-    t.integer  "fb_id",               :limit => 8
     t.integer  "age"
     t.string   "name"
     t.string   "gender"
@@ -23,16 +22,17 @@ ActiveRecord::Schema.define(:version => 20131111190447) do
     t.string   "relationship_status"
     t.string   "location"
     t.integer  "score"
-    t.datetime "created_at",                       :null => false
-    t.datetime "updated_at",                       :null => false
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
     t.string   "profile_picture"
+    t.string   "fb_id"
   end
 
   create_table "likes", :force => true do |t|
-    t.integer  "fb_id"
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "fb_id"
   end
 
   create_table "matches", :force => true do |t|
@@ -56,11 +56,11 @@ ActiveRecord::Schema.define(:version => 20131111190447) do
     t.string   "name"
     t.string   "oauth_token"
     t.datetime "oauth_expires_at"
-    t.datetime "created_at",                    :null => false
-    t.datetime "updated_at",                    :null => false
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
     t.string   "image"
     t.string   "location"
-    t.integer  "uid",              :limit => 8
+    t.string   "uid"
   end
 
 end
