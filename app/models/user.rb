@@ -23,4 +23,20 @@ class User < ActiveRecord::Base
     @facebook ||= Koala::Facebook::API.new(oauth_token)
   end
 
+  def scrape_facebook
+
+    user = self.facebook.get_object('me')
+    friends = graph.get_connections(user['id'], 'friends')
+    friends.each do |friend|
+      self.facebook.batch do |batch_api|
+        hint = Hint.new
+        hint.id = friend['id']
+        hint.name = friend['name']
+        hint.img = batch_api.get_picture(hint.id)
+        hint.save
+      end
+    end
+
+  end
+
 end
