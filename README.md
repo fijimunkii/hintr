@@ -10,6 +10,8 @@ facebook : long lived user_access token
 
 
 ##Routes
+
+```
 root to: ‘welcome#index’
 
 //this will be from FB auth -- http://railscasts.com/episodes/360-facebook-authentication  
@@ -17,11 +19,13 @@ post ‘/login’ => ‘session#create’
 get ‘/logout’ => ‘session#destroy’
 
 resources :users do  
-resources :likes  
-resources :hints do  
-resources :likes  
-end  
+	resources :likes  
+	resources :hints do  
+		resources :likes  
+	end  
 end
+
+```
 
 
 ##User Stories
@@ -45,10 +49,14 @@ so that I can continue where I left off.
 5. 2 - As a registered user,  
 I want to see a list of recommended people,  
 so that I can see what we have in common.
+	
+	/users/:id/hints
 
 6. 2 - As a registered user,  
-I want to see pictures of all my recommended people,  
+I want to see pictures of a specific recommended person,  
 so the site is pleasurable to look at.
+
+	/users/:id/hints/:id
 
 7. 1 - As a registered user,  
 I want to see an indication of others’ relationship status,  
