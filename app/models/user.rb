@@ -58,40 +58,42 @@ class User < ActiveRecord::Base
   def scrape_facebook
 
     user = self.facebook.get_object('me')
+    self.location = user['location']['name']
+    self.save! #TODO get interested_in
+
     friends = self.facebook.get_connections(user['id'], 'friends')
     friends.each do |friend|
 
-      self.facebook.batch do |batch_api|
-        hint_object = self.facebook.get_object(friend['id']) #objectify.. in a good way
-        if hint_object['gender'] == female #TODO make this reference self.interested_in
+      hint_object = self.facebook.get_object(friend['id']) #objectify.. in a good way
+      if hint_object['gender'] == 'female' #TODO make this reference self.interested_in
 
-          #find the hint or create a new one
-          Hint.where(user_id: self.id, fb_id: friend['id']).first_or_initialize.tap do |hint|
-            hint.user_id = self.id
-            hint.fb_id = hint_object['id']
-            hint.name = hint_object['name']
-            hint.location = hint_object['location']['name']
-            hint.gender = hint_object['gender']
-            hint.profile_picture = batch_api.get_picture(hint_object.id, { :width => 720, :height => 720 })
-            hint.save!
+        #find the hint or create a new one
+        Hint.where(user_id: self.id, fb_id: friend['id']).first_or_initialize.tap do |hint|
+          hint.user_id = self.id
+          hint.fb_id = hint_object['id']
+          hint.name = hint_object['name']
+          hint.location = hint_object['location']['name']
+          hint.gender = hint_object['gender']
+          hint.profile_picture = self.facebook.get_picture(hint.fb_id, { :width => 720, :height => 720 })
+          hint.save!
 
-            likes = self.facebook.get_connections(hint_object['id'], 'likes')
-            likes.each do |like|
-              Like.where(fb_id: like['id']).first_or_initialize.tap do |update_like|
-                update_like.fb_id = like['id']
-                update_like.name = like['name']
-                update_like.save!
+          likes = self.facebook.get_connections(hint_object['id'], 'likes')
+          likes.each do |like|
+            Like.where(fb_id: like['id']).first_or_initialize.tap do |update_like|
+              update_like.fb_id = like['id']
+              update_like.name = like['name']
+              update_like.save!
 
-                Match.where(hint_id: hint.id, like_id: update_like.id).first_or_initialize.tap do |update_match|
-                  update_match.like_id = update_like.id
-                  update_match.hint_id = hint.id
-                  update_match.save!
-                end #Match
-              end #Like
-            end #likes.each
-          end # Hint
-        end #if gender
-      end #batch
+              Match.where(hint_id: hint.id, like_id: update_like.id).first_or_initialize.tap do |update_match|
+                update_match.like_id = update_like.id
+                update_match.hint_id = hint.id
+                update_match.save!
+              end #Match
+            end #Like
+          end #likes.each
+        end # Hint
+      end #if gender
+
     end # friends.each
 
   end
