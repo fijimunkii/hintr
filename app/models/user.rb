@@ -42,7 +42,7 @@ class User < ActiveRecord::Base
 
     # if the user already exists, update
     # if user does not exist, create
-    where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
+    where(auth.slice(:provider, :fb_id)).first_or_initialize.tap do |user|
 
       # initial pull from facebook
       user.provider = auth.provider
@@ -50,7 +50,7 @@ class User < ActiveRecord::Base
       user.name = auth.info.name
       user.oauth_token = new_access_token #originally auth.credentials.token
       user.oauth_expires_at = new_access_expires_at #originally Time.at(auth.credentials.expires_at)
-      user.image = auth.info.image
+      user.profile_picture = auth.info.image
       user.location = auth.info.location
       user.save!
     end
@@ -76,7 +76,6 @@ class User < ActiveRecord::Base
 
         #find the hint or create a new one
         User.where(fb_id: friend['id']).first_or_initialize.tap do |hint|
-          hint.user_id = self.id
           hint.fb_id = friend_object['id']
           hint.name = friend_object['name']
           if friend_object['location']
@@ -86,9 +85,9 @@ class User < ActiveRecord::Base
           hint.profile_picture = self.facebook.get_picture(hint.fb_id, { :width => 720, :height => 720 })
           hint.save!
 
-          Match.where(user_a_id: self.id, user_b_id: hint.id).first_or_initialize.tap do |match|
-            match.user_a_id = self.id
-            match.user_b_id = hint.id
+          Match.where(user_id: self.id, related_user_id: hint.id).first_or_initialize.tap do |match|
+            match.user_id = self.id
+            match.related_user_id = hint.id
             match.name = hint.name
             match.profile_picture = hint.profile_picture
             likes = self.facebook.fql_query("SELECT page_id FROM page_fan WHERE uid= #{self.fb_id} AND page_id IN (SELECT page_id FROM page_fan WHERE uid = #{hint.fb_id})")
