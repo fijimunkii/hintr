@@ -13,6 +13,7 @@ class CreateUsers < ActiveRecord::Migration
       t.date :date_of_birth
       t.string :oauth_token
       t.datetime :oauth_expires_at
+      t.boolean :watched_intro
 
       t.timestamps
     end

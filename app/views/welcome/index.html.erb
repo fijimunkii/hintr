@@ -2,11 +2,15 @@
 
   Do the login thing
 
+<% elsif !current_user.interested_in %>
+
+  Ask for what user is interested in
+
+<% elsif !current_user.watched_intro %>
+
+  Play video
+
 <% else %>
-
-  <button id="load-hints">Find my hints!</button>
-
-  <button id="show-hints">Show my hints! :)</button>
 
   <script>
 
