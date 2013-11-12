@@ -77,12 +77,13 @@ body {
   display: block;
   visibility: hidden;
   position: absolute;
+  width: 100%;
   top: 100px;
-  left: 75px;
   z-index: 200;
   color: #1abc9c;
   text-transform: uppercase;
   font-size: 24px;
+  font-weight: extra-light;
 }
 
 .hover {
