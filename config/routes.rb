@@ -7,10 +7,8 @@ Hintr::Application.routes.draw do
   match 'signout', to: 'sessions#destroy', as: 'signout'
 
   resources :users do
-    resources :likes
-    resources :hints do
-      resources :likes
-    end
+    match '/load_hints', to: 'users#load_hints'
+    resources :matches
   end
 
 end

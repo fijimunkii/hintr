@@ -3,6 +3,7 @@ class CreateUsers < ActiveRecord::Migration
     create_table :users do |t|
       t.string :provider
       t.string :fb_id
+      t.string :email
       t.string :name
       t.string :gender
       t.string :interested_in

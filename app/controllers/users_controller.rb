@@ -6,4 +6,13 @@ class UsersController < ApplicationController
     redirect_to :root
   end
 
+  def load_hints
+    user = User.find params[:user_id]
+
+    user.scrape_facebook
+
+    matches = Match.where(user_id: user.id)
+    render json: matches
+  end
+
 end

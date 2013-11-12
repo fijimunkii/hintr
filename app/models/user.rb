@@ -62,25 +62,36 @@ class User < ActiveRecord::Base
     @facebook ||= Koala::Facebook::API.new(oauth_token)
   end
 
+  #TODO Thin Parallel threads
+
   def scrape_facebook
 
-    user = self.facebook.get_object('me')
-    self.location = user['location']['name']
-    self.save! #TODO get interested_in
+    user = self.facebook.get_object('me', :fields => 'name,gender,relationship_status,interested_in,birthday,location,email')
+    if user['location']
+      self.location = user['location']['name'] if user['location']['name']
+    end
+    self.email = user['email'] if user['email']
+    self.relationship_status = user['relationship_status'] if user['relationship_status']
+    self.date_of_birth = user['birthday'] if user['birthday']
+    self.save!
 
     friends = self.facebook.get_connections(user['id'], 'friends')
-    friends.each do |friend|
+    friends.each_with_index do |friend, index|
 
-      friend_object = self.facebook.get_object(friend['id']) #objectify.. in a good way
+      break if index == 20 #TODO remove this!!! only processing the first 20
+
+      friend_object = self.facebook.get_object(friend['id'], :fields => 'name,gender,relationship_status,interested_in,birthday,location') #objectify.. in a good way
       if friend_object['gender'] == 'female' #TODO make this reference self.interested_in
 
         #find the hint or create a new one
         User.where(fb_id: friend['id']).first_or_initialize.tap do |hint|
-          hint.fb_id = friend_object['id']
-          hint.name = friend_object['name']
           if friend_object['location']
             hint.location = friend_object['location']['name'] if friend_object['location']['name']
           end
+          hint.fb_id = friend_object['id']
+          hint.name = friend_object['name']
+          hint.relationship_status = friend_object['relationship_status'] if friend_object['relationship_status']
+          hint.date_of_birth = friend_object['birthday'] if friend_object['birthday']
           hint.gender = friend_object['gender'] if friend_object['gender']
           hint.profile_picture = self.facebook.get_picture(hint.fb_id, { :width => 720, :height => 720 })
           hint.save!
