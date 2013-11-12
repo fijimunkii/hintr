@@ -61,6 +61,18 @@ body {
   font-family: 'Dosis', sans-serif;
 }
 
+#hints {
+  margin-top: 90px;
+}
+
+.img-circle {
+  max-width: 200px;
+}
+.match {
+  text-align: center;
+  padding-bottom: 10px;
+}
+
 .demo-col {
   float: none;
   margin: 0 auto;
@@ -68,9 +80,6 @@ body {
   width: 100px;
   padding: 10px;
 }
-
-
-
 
 #flash-error{
   color:red;
