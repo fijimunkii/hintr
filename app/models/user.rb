@@ -125,7 +125,10 @@ class User < ActiveRecord::Base
 
         end # Hint
 
-        CUSTOM_LOGGER.info("Added new hint")
+        num_friends += 1
+
+
+        CUSTOM_LOGGER.info("Added new hint - #{num_friends/friends}% Complete")
 
       end #if gender
 

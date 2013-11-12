@@ -1,5 +1,10 @@
 class UsersController < ApplicationController
 
+  def view
+    @user = User.find params[:id]
+    render json: @user
+  end
+
   def oauth_failure
     # on OmniAuth error, create a flash error and redirect to the homepage
     flash[:error] = 'There was an issue connecting to facebook..'
