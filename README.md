@@ -10,6 +10,7 @@ facebook : long lived user_access token
 
 
 ##Routes
+
 root to: 'welcome#index'
 
   match 'auth/:provider/callback', to: 'sessions#create'
@@ -20,7 +21,7 @@ root to: 'welcome#index'
 resources :users do
   resources :pictures
   resources :matches
-end
+=======
 
 
 ##User Stories
@@ -29,9 +30,9 @@ end
 I want to see how the site works,
 so that I will be interested in signing up.
 
-~~2. 2 - As an unregistered user,~~
-~~I want to sign in to use the site,~~
-~~so that I can start using the service.~~
+2. 2 - As an unregistered user,
+I want to sign in to use the site,
+so that I can start using the service.
 
 3. 4 - As a registered user, who has never visited the site before,
 I want to confirm my interests,
@@ -46,7 +47,7 @@ I want to see a list of recommended people,
 so that I can see what we have in common.
 
 6. 2 - As a registered user,
-I want to see pictures of all my recommended people,
+I want to see pictures of a specific recommended person,
 so the site is pleasurable to look at.
 
 7. 1 - As a registered user,
