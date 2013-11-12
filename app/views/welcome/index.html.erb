@@ -11,7 +11,7 @@
   </div>
 </div>
 
-<%# elsif !current_user.interested_in %>
+<% elsif !current_user.interested_in %>
 
 <!-- Ask for what user is interested in -->
 
@@ -22,14 +22,14 @@
   <div class="demo-col">
     <label class="checkbox" for="checkbox1">
       <span class="icons"><span class="first-icon fui-checkbox-unchecked"></span><span class="second-icon fui-checkbox-checked"></span></span><input type="checkbox" value="" id="checkbox1" data-toggle="checkbox">
-      Women
+      Men
     </label>
     <label class="checkbox" for="checkbox2">
       <span class="icons"><span class="first-icon fui-checkbox-unchecked"></span><span class="second-icon fui-checkbox-checked"></span></span><input type="checkbox" value="" id="checkbox2" data-toggle="checkbox">
-      Men
+      Women
     </label>
   </div>
-   <a href="#fakelink" class="btn btn-lg btn-block btn-primary">
+   <a href="#fakelink" class="btn btn-lg btn-block btn-primary" id="interested-in-yes">
      Yes!
    </a>
 </div>

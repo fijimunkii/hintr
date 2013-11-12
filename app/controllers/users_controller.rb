@@ -11,9 +11,11 @@ class UsersController < ApplicationController
     redirect_to :root
   end
 
-  def scrape
-    @user = User.find params[:user_id]
-    Resque.enqueue(FacebookScraper, @user.id)
+  def set_interest
+    @user = current_user
+    @user.interested_in = params[:interested_in]
+    @user.save
+    #Resque.enqueue(FacebookScraper, @user.id)
     render json: @user
   end
 
