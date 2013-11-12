@@ -6,16 +6,15 @@
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
   <link href='http://fonts.googleapis.com/css?family=Engagement' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Dosis:200,300,400,800' rel='stylesheet' type='text/css'>
 
 </head>
 <body>
-  <div class="container">
 
     <% flash.each do |name, msg| %>
       <%= content_tag :div, msg, id: "flash_#{name}" %>
     <% end %>
 
     <%= yield %>
-  </div>
 </body>
 </html>
