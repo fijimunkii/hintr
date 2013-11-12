@@ -72,14 +72,17 @@ body {
   width: 100%;
   top: 100px;
   z-index: 200;
-  color: #1abc9c;
-  text-transform: uppercase;
+  color: #00BD9C;
+  font-family: 'Oxygen', sans-serif;
   font-size: 24px;
   font-weight: extra-light;
+  text-shadow: rgb(13, 96, 80) 1px 1px,
+  rgb(13, 96, 80) 2px 2px;
 }
 
+
 .hover {
-  opacity: 0.4;
+  opacity: 0.2;
 }
 
 .demo-col {
