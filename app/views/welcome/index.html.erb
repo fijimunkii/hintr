@@ -1,6 +1,9 @@
 <% if !current_user %>
 
-  Do the login thing
+  <a href="/auth/facebook" class="btn btn-sm btn-social-facebook" id="sign_in">
+          <i class="fui-facebook"></i>
+          Connect with Facebook
+  </a>
 
 <% elsif !current_user.interested_in %>
 
