@@ -5,24 +5,11 @@
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
+  <link href='http://fonts.googleapis.com/css?family=Engagement' rel='stylesheet' type='text/css'>
+
 </head>
 <body>
-  <div id="container">
-
-    <div id="user_nav">
-      <% if current_user %>
-        Signed in as <strong><%= current_user.name %></strong>
-        <%= link_to "Sign out", signout_path, id: "sign_out" %>
-      <% else %>
-
-
-        <a href="/auth/facebook" class="btn btn-sm btn-social-facebook" id="sign_in">
-            <i class="fui-facebook"></i>
-            Connect with Facebook
-        </a>
-
-      <% end %>
-    </div>
+  <div class="container">
 
     <% flash.each do |name, msg| %>
       <%= content_tag :div, msg, id: "flash_#{name}" %>
