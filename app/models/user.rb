@@ -60,13 +60,17 @@ class User < ActiveRecord::Base
     # creates a facebook variable that can be used
     # for interacting with the users info on facebook
     @facebook ||= Koala::Facebook::API.new(oauth_token)
+    block_given? ? yield(@facebook) : @facebook
+  rescue Koala::Facebook::APIError => e
+    logger.info e.to_s
+    nil
   end
 
   #TODO Thin Parallel threads
 
   def scrape_facebook
 
-    user = self.facebook.get_object('me', :fields => 'name,gender,relationship_status,interested_in,birthday,location,email')
+    user = facebook { |fb| fb.get_object('me', :fields => 'name,gender,relationship_status,interested_in,birthday,location,email') }
     if user['location']
       self.location = user['location']['name'] if user['location']['name']
     end
@@ -75,12 +79,12 @@ class User < ActiveRecord::Base
     self.date_of_birth = user['birthday'] if user['birthday']
     self.save!
 
-    friends = self.facebook.get_connections(user['id'], 'friends')
+    friends = facebook { |fb| fb.get_connections(user['id'], 'friends') }
     friends.each_with_index do |friend, index|
 
       break if index == 20 #TODO remove this!!! only processing the first 20
 
-      friend_object = self.facebook.get_object(friend['id'], :fields => 'name,gender,relationship_status,interested_in,birthday,location') #objectify.. in a good way
+      friend_object = facebook { |fb| fb.get_object(friend['id'], :fields => 'name,gender,relationship_status,interested_in,birthday,location') }
       if friend_object['gender'] == 'female' #TODO make this reference self.interested_in
 
         #find the hint or create a new one
@@ -93,7 +97,7 @@ class User < ActiveRecord::Base
           hint.relationship_status = friend_object['relationship_status'] if friend_object['relationship_status']
           hint.date_of_birth = friend_object['birthday'] if friend_object['birthday']
           hint.gender = friend_object['gender'] if friend_object['gender']
-          hint.profile_picture = self.facebook.get_picture(hint.fb_id, { :width => 720, :height => 720 })
+          hint.profile_picture = facebook { |fb| fb.get_picture(hint.fb_id, { :width => 720, :height => 720 }) }
           hint.save!
 
           Match.where(user_id: self.id, related_user_id: hint.id).first_or_initialize.tap do |match|
@@ -101,15 +105,15 @@ class User < ActiveRecord::Base
             match.related_user_id = hint.id
             match.name = hint.name
             match.profile_picture = hint.profile_picture
-            likes = self.facebook.fql_query("SELECT page_id FROM page_fan WHERE uid= #{self.fb_id} AND page_id IN (SELECT page_id FROM page_fan WHERE uid = #{hint.fb_id})")
+            likes = facebook { |fb| fb.fql_query("SELECT page_id, type FROM page_fan WHERE uid= #{self.fb_id} AND page_id IN (SELECT page_id FROM page_fan WHERE uid = #{hint.fb_id})") }
             match.weight = likes.length
             match.save!
 
             likes.each do |like|
-              Like.where(match_id: match.id, fb_id: like['id']).first_or_initialize.tap do |new_like|
+              Like.where(match_id: match.id, fb_id: like['page_id'].to_s).first_or_initialize.tap do |new_like|
                 new_like.match_id = match.id
-                new_like.fb_id = like['id']
-                new_like.name = like['name']
+                new_like.fb_id = like['page_id']
+                new_like.type = like['type']
                 new_like.save!
               end
             end
