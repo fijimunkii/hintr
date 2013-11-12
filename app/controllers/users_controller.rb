@@ -17,7 +17,8 @@ class UsersController < ApplicationController
 
   def registration_and_load_intro
     @user = User.find params[:id]
-    UserMailer.registration_confirmation(@user).deliver
+    Resque.enqueue(RegistrationMailer, @user.id)
+
     # respond with link to video
   end
 

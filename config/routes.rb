@@ -11,4 +11,6 @@ Hintr::Application.routes.draw do
     resources :matches
   end
 
+  mount Resque::Server, :at => "/resque"
+
 end
