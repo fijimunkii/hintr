@@ -1,4 +1,5 @@
 body {
+  font-family: 'Dosis', sans-serif;
   background: url('http://f.cl.ly/items/1T0U3Z0x1s1Y2K1U122W/bg.jpg') no-repeat center center fixed;
   background-size: cover;
 /*  #TODO make this a class that you can add to the body and remove based on user login info*/
@@ -22,6 +23,7 @@ body {
 }
 
 #intro h1 {
+  font-family: 'Engagement', cursive;
   color: #e74c3c;
 }
 
