@@ -5,15 +5,26 @@
           Connect with Facebook
   </a>
 
-<% elsif !current_user.interested_in %>
+<%# elsif !current_user.interested_in %>
 
   Ask for what user is interested in
 
-<% elsif !current_user.watched_intro %>
+<%# elsif !current_user.watched_intro %>
 
   Play video
 
 <% else %>
+
+  <!-- nav bar -->
+  <div class="navbar navbar-inverse">
+    <div class="navbar-inner">
+      <div class="container">
+        <a href="/" class="navbar-brand">hintr</a>
+        Signed in as <strong><%= current_user.name %></strong>
+        <%= link_to "Sign out", signout_path, id: "sign_out" %>
+      </div>
+    </div>
+  </div>
 
   <script>
 

@@ -1,3 +1,10 @@
+.navbar .navbar-brand {
+  font-family: 'Engagement', cursive;
+  font-size: 60px;
+  font-weight: 400;
+}
+
+
 #flash_error{
   color:red;
 }
