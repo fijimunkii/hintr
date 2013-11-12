@@ -36,6 +36,42 @@ body {
   color: #34495E;
 }
 
+.interested-in {
+  text-align: center;
+  width: 500px;
+  margin: 0 auto;
+  margin-top: 1.5%;
+}
+
+.interested-in img {
+  border: 3px solid #00BD9C;
+  border-radius: 50%;
+  height: 400px;
+  width: 400px;
+  font-family: 'Dosis', sans-serif;
+}
+
+.interested-in h1 {
+  padding: 10px;
+  font-family: 'Dosis', sans-serif;
+}
+
+.interested-in h3 {
+  padding: 10px;
+  font-family: 'Dosis', sans-serif;
+}
+
+.demo-col {
+  float: none;
+  margin: 0 auto;
+  text-align: left;
+  width: 100px;
+  padding: 10px;
+}
+
+
+
+
 #flash-error{
   color:red;
 }
