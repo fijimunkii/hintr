@@ -1,9 +1,16 @@
 $(function() {
 
-  createHints();
+  var showHint = function(hintDiv) {
+    return $.ajax({
+      url: '/users/' + $(hintDiv).attr('data-id'),
+      type: 'get'
+    });
+  };
 
   $('body').on('click', '.match', function() {
-    showHint(this);
+    showHint(this).done(function(data) {
+      console.log(data);
+    });
   });
 
   $('#interested-in-yes').on('click', function(e) {
