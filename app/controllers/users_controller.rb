@@ -6,17 +6,19 @@ class UsersController < ApplicationController
     redirect_to :root
   end
 
+  def scrape
+    @user = User.find params[:user_id]
+    Resque.enqueue(FacebookScraper, @user.id)
+    render json: @user
+  end
+
   def load_hints
     user = User.find params[:user_id]
-
-    user.scrape_facebook
-
     matches = Match.where(user_id: user.id)
     render json: matches
   end
 
   def load_intro
-    binding.pry
     @user = User.find params[:user_id]
     Resque.enqueue(RegistrationMailer, @user.id)
 

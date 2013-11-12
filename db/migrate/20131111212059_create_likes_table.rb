@@ -3,7 +3,7 @@ class CreateLikesTable < ActiveRecord::Migration
     create_table :likes do |t|
       t.integer :match_id
       t.string :fb_id
-      t.string :type
+      t.string :like_type
 
       t.timestamps
     end

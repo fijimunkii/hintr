@@ -85,7 +85,7 @@ class User < ActiveRecord::Base
     friends = facebook { |fb| fb.get_connections(user['id'], 'friends') }
     friends.each_with_index do |friend, index|
 
-      break if index == 20 #TODO remove this!!! only processing the first 20
+      #break if index == 20 #only processing the first 20
 
       friend_object = facebook { |fb| fb.get_object(friend['id'], :fields => 'name,gender,relationship_status,interested_in,birthday,location') }
       if friend_object['gender'] == 'female' #TODO make this reference self.interested_in
@@ -116,7 +116,7 @@ class User < ActiveRecord::Base
               Like.where(match_id: match.id, fb_id: like['page_id'].to_s).first_or_initialize.tap do |new_like|
                 new_like.match_id = match.id
                 new_like.fb_id = like['page_id']
-                new_like.type = like['type']
+                new_like.like_type = like['type']
                 new_like.save!
               end
             end

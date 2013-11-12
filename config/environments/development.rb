@@ -24,8 +24,8 @@ Hintr::Application.configure do
     domain: "gmail.com",
     authentication: "plain",
     enable_starttls_auto: true,
-    user_name: "the.hintr",
-    password: ENV["HINTR_GMAIL_PASSWORD"]
+    user_name: "the.hintr@gmail.com",
+    password: ENV['HINTR_GMAIL_PASSWORD']
   }
 
   # Specify what domain to use for mailer URLs
