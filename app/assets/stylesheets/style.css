@@ -34,6 +34,13 @@ body {
 #hints {
   margin-top: 90px;
 }
+
+.img-circle {
+  max-width: 200px;
+}
+.match {
+  text-align: center;
+}
 #flash_error{
   color:red;
 }
