@@ -81,27 +81,34 @@ JS:
 
 <script>
 
-function findHints() {
-  return $.ajax({
-    url: "/users/<%= current_user.id %>/load_hints",
-    type: 'post'
-  });
-}
+$(function() {
 
-function showHints() {
-  return $.ajax({
-    url: "/users/<%= current_user.id %>/matches",
-    type: 'get'
-  });
-}
+    var loadMatches = function loadMatches() {
+      return $.ajax({
+        url: "/users/<%= current_user.id %>/matches",
+        type: 'get'
+      });
+    };
 
-$('#load-hints').on('click', function() {
-  findHints().done(function(data) {
-    console.log(data);
-  });
-  $(this).off();
+  loadMatches().done(function(data) {
+      for (i=0;i<data.length;i++) {
+        var $matchDiv = $('<div>');
+        var $matchSpan = $('<span>');
+        var matchId = data[i]['related_user_id'];
+        $matchDiv.attr('data-id', matchId);
+        $matchDiv.addClass('match col-sm-6 col-md-3 col-lg-3');
+        var $matchPic = $('<img>');
+        var dataWeight = data[i]['weight'];
+        $matchSpan.text(dataWeight + '% Match');
+        $matchPic.attr('src', data[i]['profile_picture']);
+        $matchPic.attr('class', 'img-circle match-img');
+        $matchDiv.append($matchPic);
+        $matchDiv.append($matchSpan);
+        $('#hint-rows').append($matchDiv);
+        $('#show-hints').addClass('hidden');
+      }
+    });
 });
-
 
 </script>
 
