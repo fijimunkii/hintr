@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(:version => 20131111212059) do
   create_table "users", :force => true do |t|
     t.string   "provider"
     t.string   "fb_id"
+    t.string   "email"
     t.string   "name"
     t.string   "gender"
     t.string   "interested_in"
