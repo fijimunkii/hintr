@@ -1,9 +1,12 @@
 body {
   font-family: 'Dosis', sans-serif;
-  background: url('http://f.cl.ly/items/1T0U3Z0x1s1Y2K1U122W/bg.jpg') no-repeat center center fixed;
-  background-size: cover;
-/*  #TODO make this a class that you can add to the body and remove based on user login info*/
 }
+
+.login-body {
+  background: url('background-login.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
+
 .navbar .navbar-brand {
   font-family: 'Engagement', cursive;
   font-size: 60px;
@@ -18,23 +21,25 @@ body {
 }
 
 #intro.container {
-  margin-top: 100px;
+  margin-top: 11%;
   height: 100%;
 }
 
 #intro h1 {
+  font-size: 6em;
   font-family: 'Engagement', cursive;
   color: #e74c3c;
 }
 
 #intro p {
-  color: #1abc9c;
+  font-size: 2em;
+  color: #34495E;
 }
 
-#flash_error{
+#flash-error{
   color:red;
 }
 
-#flash_notice{
+#flash-notice{
   color:green;
 }

@@ -7,12 +7,11 @@
   <%= csrf_meta_tags %>
   <link href='http://fonts.googleapis.com/css?family=Engagement' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Dosis:200,300,400,800' rel='stylesheet' type='text/css'>
-
 </head>
 <body>
 
     <% flash.each do |name, msg| %>
-      <%= content_tag :div, msg, id: "flash_#{name}" %>
+      <%= content_tag :div, msg, id: "flash-#{name}" %>
     <% end %>
 
     <%= yield %>
