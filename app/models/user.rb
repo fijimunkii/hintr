@@ -50,12 +50,14 @@ class User < ActiveRecord::Base
       user.provider = auth.provider
       user.fb_id = auth.uid
       user.name = auth.info.name
-      binding.pry
       user.email = auth.info.email
       user.oauth_token = new_access_token #originally auth.credentials.token
       user.oauth_expires_at = new_access_expires_at #originally Time.at(auth.credentials.expires_at)
       user.profile_picture = auth.info.image
-      user.location = auth.info.location
+      user.location = auth.info.location if auth.info.location
+      user.relationship_status = auth.extra.raw_info.relationship_status if auth.extra.raw_info.relationship_status
+      user.date_of_birth = auth.extra.raw_info.birthday if auth.extra.raw_info.birthday
+      user.location = auth.extra.raw_info.location.name if auth.extra.raw_info.location
       user.save!
 
     end
@@ -74,12 +76,6 @@ class User < ActiveRecord::Base
   def scrape_facebook
 
     user = facebook { |fb| fb.get_object('me', :fields => 'name,gender,relationship_status,interested_in,birthday,location,email') }
-    if user['location']
-      self.location = user['location']['name'] if user['location']['name']
-    end
-    self.relationship_status = user['relationship_status'] if user['relationship_status']
-    self.date_of_birth = user['birthday'] if user['birthday']
-    self.save!
 
     friends = facebook { |fb| fb.get_connections(user['id'], 'friends') }
     num_friends = friends.size
