@@ -236,6 +236,7 @@ DEPENDENCIES
   quiet_assets
   rails (= 3.2.14)
   rails-erd
+  redis
   resque
   sass-rails (~> 3.2.3)
   thin

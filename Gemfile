@@ -12,6 +12,7 @@ gem 'thin'
 
 gem 'mail'
 
+gem 'redis'
 gem 'resque', :require => "resque/server"
 
 gem 'omniauth-facebook', '1.4.0' #https://github.com/mkdynamic/omniauth-facebook
