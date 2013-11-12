@@ -50,10 +50,14 @@ class User < ActiveRecord::Base
       user.provider = auth.provider
       user.fb_id = auth.uid
       user.name = auth.info.name
+      user.email = auth.info.email
       user.oauth_token = new_access_token #originally auth.credentials.token
       user.oauth_expires_at = new_access_expires_at #originally Time.at(auth.credentials.expires_at)
       user.profile_picture = auth.info.image
-      user.location = auth.info.location
+      user.location = auth.info.location if auth.info.location
+      user.relationship_status = auth.extra.raw_info.relationship_status if auth.extra.raw_info.relationship_status
+      user.date_of_birth = auth.extra.raw_info.birthday if auth.extra.raw_info.birthday
+      user.location = auth.extra.raw_info.location.name if auth.extra.raw_info.location
       user.save!
 
     end
@@ -69,46 +73,37 @@ class User < ActiveRecord::Base
     nil
   end
 
-  #TODO Thin Parallel threads
-
   def scrape_facebook
 
     user = facebook { |fb| fb.get_object('me', :fields => 'name,gender,relationship_status,interested_in,birthday,location,email') }
-    if user['location']
-      self.location = user['location']['name'] if user['location']['name']
-    end
-    self.email = user['email'] if user['email']
-    self.relationship_status = user['relationship_status'] if user['relationship_status']
-    self.date_of_birth = user['birthday'] if user['birthday']
-    self.save!
 
     friends = facebook { |fb| fb.get_connections(user['id'], 'friends') }
+    num_friends = friends.size
+    friends_processed = 0
     friends.each_with_index do |friend, index|
 
-      #break if index == 20 #only processing the first 20
-
       friend_object = facebook { |fb| fb.get_object(friend['id'], :fields => 'name,gender,relationship_status,interested_in,birthday,location') }
-      if friend_object['gender'] == 'female' #TODO make this reference self.interested_in
+      if friend_object['gender'] == self.interested_in #TODO make this work for 'both'
 
-        #find the hint or create a new one
-        User.where(fb_id: friend['id']).first_or_initialize.tap do |hint|
+        #find the new_user or create a new one
+        User.where(fb_id: friend['id']).first_or_initialize.tap do |new_user|
           if friend_object['location']
-            hint.location = friend_object['location']['name'] if friend_object['location']['name']
+            new_user.location = friend_object['location']['name'] if friend_object['location']['name']
           end
-          hint.fb_id = friend_object['id']
-          hint.name = friend_object['name']
-          hint.relationship_status = friend_object['relationship_status'] if friend_object['relationship_status']
-          hint.date_of_birth = friend_object['birthday'] if friend_object['birthday']
-          hint.gender = friend_object['gender'] if friend_object['gender']
-          hint.profile_picture = facebook { |fb| fb.get_picture(hint.fb_id, { :width => 720, :height => 720 }) }
-          hint.save!
+          new_user.fb_id = friend_object['id']
+          new_user.name = friend_object['name']
+          new_user.relationship_status = friend_object['relationship_status'] if friend_object['relationship_status']
+          new_user.date_of_birth = friend_object['birthday'] if friend_object['birthday']
+          new_user.gender = friend_object['gender'] if friend_object['gender']
+          new_user.profile_picture = facebook { |fb| fb.get_picture(new_user.fb_id, { :width => 720, :height => 720 }) }
+          new_user.save!
 
-          Match.where(user_id: self.id, related_user_id: hint.id).first_or_initialize.tap do |match|
+          Match.where(user_id: self.id, related_user_id: new_user.id).first_or_initialize.tap do |match|
             match.user_id = self.id
-            match.related_user_id = hint.id
-            match.name = hint.name
-            match.profile_picture = hint.profile_picture
-            likes = facebook { |fb| fb.fql_query("SELECT page_id, type FROM page_fan WHERE uid= #{self.fb_id} AND page_id IN (SELECT page_id FROM page_fan WHERE uid = #{hint.fb_id})") }
+            match.related_user_id = new_user.id
+            match.name = new_user.name
+            match.profile_picture = new_user.profile_picture
+            likes = facebook { |fb| fb.fql_query("SELECT page_id, type FROM page_fan WHERE uid= #{self.fb_id} AND page_id IN (SELECT page_id FROM page_fan WHERE uid = #{new_user.fb_id})") }
             match.weight = likes.length
             match.save!
 
@@ -123,14 +118,12 @@ class User < ActiveRecord::Base
 
           end # match
 
-        end # Hint
-
-        num_friends += 1
-
-
-        CUSTOM_LOGGER.info("Added new hint - #{num_friends/friends}% Complete")
+        end # New User
 
       end #if gender
+
+      friends_processed += 1
+      CUSTOM_LOGGER.info("Processing Friends - #{friends_processed}/#{num_friends} Complete")
 
     end # friends.each
 

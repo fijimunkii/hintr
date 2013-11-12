@@ -11,9 +11,12 @@ class UsersController < ApplicationController
     redirect_to :root
   end
 
-  def scrape
-    @user = User.find params[:user_id]
+  def set_interest
+    @user = current_user
+    @user.interested_in = params[:interested_in]
+    @user.save
     Resque.enqueue(FacebookScraper, @user.id)
+    Resque.enqueue(RegistrationMailer, @user.id)
     render json: @user
   end
 
@@ -21,14 +24,6 @@ class UsersController < ApplicationController
     user = User.find params[:user_id]
     matches = Match.where(user_id: user.id)
     render json: matches
-  end
-
-  def load_intro
-    @user = User.find params[:user_id]
-    Resque.enqueue(RegistrationMailer, @user.id)
-
-    intro = "/videos/intro.mp4"
-    render json: intro
   end
 
 end

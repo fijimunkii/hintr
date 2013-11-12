@@ -2,22 +2,11 @@ body {
   font-family: 'Dosis', sans-serif;
 }
 
+
+/* LOGIN SCREEN */
 .login-body {
   background: url('background-login.jpg') no-repeat center center fixed;
   background-size: cover;
-}
-
-.navbar .navbar-brand {
-  font-family: 'Engagement', cursive;
-  font-size: 60px;
-  font-weight: 400;
-  border: 0;
-}
-.jumbotron {
-  background-color: rgba(44, 62, 80,0.9);
-  text-align: center;
-  min-height: 800px;
-  margin-bottom: 0px;
 }
 
 #intro.container {
@@ -36,9 +25,11 @@ body {
   color: #34495E;
 }
 
+
+/* INTERESTED IN SCREEN */
 .interested-in {
   text-align: center;
-  width: 500px;
+  width: 60%;
   margin: 0 auto;
   margin-top: 1.5%;
 }
@@ -46,8 +37,8 @@ body {
 .interested-in img {
   border: 3px solid #00BD9C;
   border-radius: 50%;
-  height: 400px;
-  width: 400px;
+  height: 350px;
+  width: 350px;
   font-family: 'Dosis', sans-serif;
 }
 
@@ -98,6 +89,27 @@ body {
   padding: 10px;
 }
 
+.interested-in a {
+  width: 50%;
+  margin: 0 auto;
+}
+
+
+/* MAIN SCREEN */
+.navbar .navbar-brand {
+  font-family: 'Engagement', cursive;
+  font-size: 60px;
+  font-weight: 400;
+  border: 0;
+}
+.jumbotron {
+  background-color: rgba(44, 62, 80,0.9);
+  text-align: center;
+  min-height: 800px;
+  margin-bottom: 0px;
+}
+
+/* LAYOUT */
 #flash-error{
   color:red;
 }
