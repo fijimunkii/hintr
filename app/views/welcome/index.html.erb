@@ -1,6 +1,6 @@
 <% if !current_user %>
 
-<div class="jumbotron">
+<div class="jumbotron login-body">
   <div id="intro" class="container">
     <h1>hintr</h1>
     <p>find the best options among your friends</p>
@@ -10,9 +10,30 @@
     </a>
   </div>
 </div>
-<%# elsif !current_user.interested_in %>
+
+<% elsif !current_user.interested_in %>
 
 <!-- Ask for what user is interested in -->
+
+<div class="interested-in">
+  <h1>Welcome <%= current_user.name %> </h1>
+  <img src="https://graph.facebook.com/<%= current_user.fb_id %>/picture?width=200&height=200">
+  <h3>Select your interest</h3>
+  <div class="demo-col">
+    <label class="checkbox" for="checkbox1">
+      <span class="icons"><span class="first-icon fui-checkbox-unchecked"></span><span class="second-icon fui-checkbox-checked"></span></span><input type="checkbox" value="" id="checkbox1" data-toggle="checkbox">
+      Women
+    </label>
+    <label class="checkbox" for="checkbox2">
+      <span class="icons"><span class="first-icon fui-checkbox-unchecked"></span><span class="second-icon fui-checkbox-checked"></span></span><input type="checkbox" value="" id="checkbox2" data-toggle="checkbox">
+      Men
+    </label>
+  </div>
+   <a href="#fakelink" class="btn btn-lg btn-block btn-primary">
+     Yes!
+   </a>
+</div>
+
 
 <%# elsif !current_user.watched_intro %>
 

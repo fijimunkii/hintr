@@ -7,8 +7,12 @@ Hintr::Application.routes.draw do
   match 'signout', to: 'sessions#destroy', as: 'signout'
 
   resources :users do
+    post '/scrape', to: 'users#scrape'
+    match '/load_intro', to: 'users#load_intro'
     match '/load_hints', to: 'users#load_hints'
     resources :matches
   end
+
+  mount Resque::Server, :at => "/resque"
 
 end

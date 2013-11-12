@@ -5,7 +5,7 @@
 #  id         :integer          not null, primary key
 #  match_id   :integer
 #  fb_id      :string(255)
-#  name       :string(255)
+#  type       :string(255)
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
