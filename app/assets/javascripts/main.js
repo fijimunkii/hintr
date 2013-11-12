@@ -4,4 +4,8 @@ $( document ).ready(function() {
   $('body').on('click', '.match', function() {
     showHint(this);
   });
+  $('#interested-in-yes').on('click', function(e) {
+    e.preventDefault();
+    interestedIn();
+  });
 });
