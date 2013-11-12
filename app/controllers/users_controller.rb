@@ -15,7 +15,7 @@ class UsersController < ApplicationController
     @user = current_user
     @user.interested_in = params[:interested_in]
     @user.save
-    #Resque.enqueue(FacebookScraper, @user.id)
+    Resque.enqueue(FacebookScraper, @user.id)
     render json: @user
   end
 
