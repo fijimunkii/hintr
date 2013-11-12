@@ -15,91 +15,26 @@
 
 <% else %>
 
-  <!-- nav bar -->
-  <div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="navbar-inner">
+
+  <div class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container">
-        <div class="navbar-left">
-          <div class="navbar-header">
-            <a href="/" class="navbar-brand">hintr</a>
-          </div>
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">hintr</a>
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
         </div>
-        <ul class="nav navbar-nav navbar-right">
-          <li>Signed in as <strong><%= current_user.name %></strong></li>
-          <li><%= link_to "Sign out", signout_path, id: "sign_out" %></li>
-        </ul>
+        <div class="navbar-collapse collapse" style="height: 1px;">
+          <ul class="nav navbar-nav navbar-right">
+            <li>Signed in as <%= current_user.name %></li>
+            <li class="active"><%= link_to "Sign out", signout_path, id: "sign_out" %></li>
+          </ul>
+        </div><!--/.nav-collapse -->
       </div>
     </div>
-  </div>
 
-<div class="navbar navbar-inverse">
-  <div class="navbar-inner">
-    <div class="container">
-      <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target="#nav-collapse-03"></button>
-      <a href="#fakelink" class="navbar-brand">Flat UI</a>
-      <div class="nav-collapse collapse in" id="nav-collapse-03">
-        <ul class="nav">
-          <li>
-            <a href="#fakelink">
-              Menu Item
-              <span class="navbar-unread">1</span>
-            </a>
-          </li>
-          <li class="active">
-            <a href="#fakelink">
-              Messages
-              <span class="navbar-unread">1</span>
-            </a>
-            <ul>
-              <li><a href="#fakelink">Element One</a></li>
-              <li>
-                <a href="#fakelink">Sub menu</a>
-                <ul>
-                  <li><a href="#fakelink">Element One</a></li>
-                  <li><a href="#fakelink">Element Two</a></li>
-                  <li><a href="#fakelink">Element Three</a></li>
-                </ul> <!-- /Sub menu -->
-              </li>
-              <li><a href="#fakelink">Element Three</a></li>
-            </ul> <!-- /Sub menu -->
-          </li>
-          <li>
-            <a href="#fakelink">
-              About Us
-            </a>
-          </li>
-        </ul> <!-- /nav -->
-
-        <form class="navbar-search pull-left" action="" align="center">
-          <div class="input-group input-group-sm">
-            <input class="form-control" id="navbarInput-02" type="search" placeholder="Search">
-            <span class="input-group-btn">
-              <button type="submit" class="btn btn-default">
-                <i class="fui-search"></i>
-              </button>
-            </span>
-          </div>
-        </form>
-
-        <ul class="nav pull-right">
-          <li class="divider"></li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              Settings <b class="caret"></b>
-            </a>
-            <ul class="dropdown-menu">
-              <li><a href="#fakelink">Action</a></li>
-              <li><a href="#fakelink">Another action</a></li>
-              <li><a href="#fakelink">Something else here</a></li>
-              <li class="divider"></li>
-              <li><a href="#fakelink">Separated link</a></li>
-            </ul>
-          </li>
-        </ul> <!-- /nav -->
-      </div><!--/.nav-collapse -->
-    </div>
-  </div>
-</div>
 
 
   <script>
