@@ -15,4 +15,10 @@ class UsersController < ApplicationController
     render json: matches
   end
 
+  def registration_and_load_intro
+    @user = User.find params[:id]
+    UserMailer.registration_confirmation(@user).deliver
+    # respond with link to video
+  end
+
 end

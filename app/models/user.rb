@@ -5,6 +5,7 @@
 #  id                  :integer          not null, primary key
 #  provider            :string(255)
 #  fb_id               :string(255)
+#  email               :string(255)
 #  name                :string(255)
 #  gender              :string(255)
 #  interested_in       :string(255)
@@ -14,6 +15,7 @@
 #  date_of_birth       :date
 #  oauth_token         :string(255)
 #  oauth_expires_at    :datetime
+#  watched_intro       :boolean
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #
@@ -53,6 +55,7 @@ class User < ActiveRecord::Base
       user.profile_picture = auth.info.image
       user.location = auth.info.location
       user.save!
+
     end
   end
 

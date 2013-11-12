@@ -208,6 +208,7 @@ DEPENDENCIES
   haml-rails
   jquery-rails
   koala
+  mail
   meta_request
   omniauth-facebook (= 1.4.0)
   pg
