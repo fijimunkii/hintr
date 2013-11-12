@@ -15,7 +15,7 @@
 
 <div class="interested-in">
   <h1>Welcome <%= current_user.name %> </h1>
-  <img src="https://graph.facebook.com/<%= current_user.fb_id %>/picture?width=200&height=200">
+  <img src="https://graph.facebook.com/<%= current_user.fb_id %>/picture?width=720&height=720">
   <h3>Select your interest</h3>
   <div class="demo-col">
     <label class="checkbox" for="checkbox1">
@@ -31,6 +31,15 @@
      Yes!
    </a>
 </div>
+
+<!--
+JS:
+  Prevent default,
+  Post the interested-in answer,
+  Start scrapping,
+  Set current_user.interested_in to true,
+  Redirect to the next page
+ -->
 
 
 <%# elsif !current_user.watched_intro %>
