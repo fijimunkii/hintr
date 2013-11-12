@@ -15,11 +15,13 @@ class UsersController < ApplicationController
     render json: matches
   end
 
-  def registration_and_load_intro
-    @user = User.find params[:id]
+  def load_intro
+    binding.pry
+    @user = User.find params[:user_id]
     Resque.enqueue(RegistrationMailer, @user.id)
 
-    # respond with link to video
+    intro = "/videos/intro.mp4"
+    render json: intro
   end
 
 end
