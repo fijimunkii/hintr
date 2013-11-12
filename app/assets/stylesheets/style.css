@@ -31,6 +31,9 @@ body {
   color: #1abc9c;
 }
 
+#hints {
+  margin-top: 90px;
+}
 #flash_error{
   color:red;
 }

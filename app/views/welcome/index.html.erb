@@ -39,7 +39,15 @@
     </div><!--/.nav-collapse -->
   </div>
 </div>
-
+<div id="hints">
+  <div class="container">
+    <div class="row">
+      <button id="show-hints">
+        Show Hints
+      </button>
+    </div>
+  </div>
+</div>
 
 
 <script>
@@ -65,19 +73,6 @@ $('#load-hints').on('click', function() {
   $(this).off();
 });
 
-$('#show-hints').on('click', function() {
-  showHints().done(function(data) {
-    for (i=0;i<data.length;i++) {
-      $matchDiv = $('<div>');
-      $matchDiv.addClass('match');
-      $matchPic = $('<img>');
-      $matchPic.attr('src', data[i]['profile_picture']);
-      $matchDiv.append($matchPic);
-      $('body').append($matchDiv);
-    }
-  });
-  $(this).off();
-});
 
 </script>
 
