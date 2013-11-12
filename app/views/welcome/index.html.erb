@@ -1,9 +1,8 @@
+<% if !current_user %>
 
-<br />
-<br />
-Awesome stuff to see here
+  Do the login thing
 
-<% if current_user %>
+<% else %>
 
   <button id="load-hints">Find my hints!</button>
 
