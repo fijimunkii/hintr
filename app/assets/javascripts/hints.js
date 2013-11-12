@@ -22,6 +22,10 @@ var showHint = function(hintDiv) {
     url: '/users/' + $(hintDiv).attr('data-id'),
     type: 'get'
   }).done(function(data) {
-    console.log(data);
+    var matchName = data["name"];
+    var matchStatus = data["relationship_status"];
+    var matchInterest = data["interested_in"];
+    var $matchDivStatus = hintDiv.addClass('caption');
+    console.log(hintDiv);
   });
 };

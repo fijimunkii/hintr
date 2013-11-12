@@ -3,5 +3,5 @@ $( document ).ready(function() {
   $('#show-hints').on('click', createHints);
   $('body').on('click', '.match', function() {
     showHint(this);
-  })
+  });
 });
