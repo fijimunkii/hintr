@@ -50,6 +50,8 @@ class User < ActiveRecord::Base
       user.provider = auth.provider
       user.fb_id = auth.uid
       user.name = auth.info.name
+      binding.pry
+      user.email = auth.info.email
       user.oauth_token = new_access_token #originally auth.credentials.token
       user.oauth_expires_at = new_access_expires_at #originally Time.at(auth.credentials.expires_at)
       user.profile_picture = auth.info.image
@@ -75,7 +77,6 @@ class User < ActiveRecord::Base
     if user['location']
       self.location = user['location']['name'] if user['location']['name']
     end
-    self.email = user['email'] if user['email']
     self.relationship_status = user['relationship_status'] if user['relationship_status']
     self.date_of_birth = user['birthday'] if user['birthday']
     self.save!
@@ -85,10 +86,8 @@ class User < ActiveRecord::Base
     friends_processed = 0
     friends.each_with_index do |friend, index|
 
-      #break if index == 20 #only processing the first 20
-
       friend_object = facebook { |fb| fb.get_object(friend['id'], :fields => 'name,gender,relationship_status,interested_in,birthday,location') }
-      if friend_object['gender'] == 'female' #TODO make this reference self.interested_in
+      if friend_object['gender'] == self.interested_in #TODO make this work for 'both'
 
         #find the new_user or create a new one
         User.where(fb_id: friend['id']).first_or_initialize.tap do |new_user|
@@ -125,10 +124,10 @@ class User < ActiveRecord::Base
 
         end # New User
 
-        friends_processed += 1
-        CUSTOM_LOGGER.info("Processing Friends - #{friends_processed.to_f/num_friends.to_f*10}% Complete")
-
       end #if gender
+
+      friends_processed += 1
+      CUSTOM_LOGGER.info("Processing Friends - #{friends_processed}/#{num_friends} Complete")
 
     end # friends.each
 
