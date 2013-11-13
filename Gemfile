@@ -13,7 +13,7 @@ gem 'thin'
 gem 'mail'
 
 gem 'redis'
-gem 'resque', :require => "resque/server"
+gem 'resque', "~> 1.22.0" #:require => "resque/server"
 
 gem 'omniauth-facebook', '1.4.0' #https://github.com/mkdynamic/omniauth-facebook
 # downgraded to 1.4.0 because of this issue -- http://stackoverflow.com/a/11620929/2474735
