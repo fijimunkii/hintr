@@ -22,8 +22,15 @@ $(function() {
   });
 
   $('body').on('mouseover', '.match', function() {
-    $(this.children[0]).addClass('hover');
-    $(this.children[1]).css('visibility', 'visible');
+    var $img = $(this.children[0]);
+    var $span = $(this.children[1]);
+    $img.addClass('hover');
+    $span.css('visibility', 'visible');
+    if ($img.hasClass('green-ring') === true) {
+      $span.css('color', '#2ecc71');
+    } else {
+      $span.css ('color', '#e74c3c');
+    }
   });
 
   $('body').on('mouseout', '.match', function() {
