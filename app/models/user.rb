@@ -76,8 +76,6 @@ class User < ActiveRecord::Base
 
   def scrape_facebook
 
-    binding.pry
-
     user = facebook { |fb| fb.get_object('me', :fields => 'name,gender,relationship_status,interested_in,birthday,location,email') }
 
     friends = facebook { |fb| fb.get_connections(user['id'], 'friends') }
