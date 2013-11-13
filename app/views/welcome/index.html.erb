@@ -51,7 +51,7 @@ JS:
   <script>
   function latestHint() {
     return $.ajax({
-      url: '/users/top_match',
+      url: '/users/latest_match'+"?authenticity_token="+encodeURIComponent(AUTH_TOKEN),
       type: 'GET'
     });
   }
@@ -59,8 +59,13 @@ JS:
   // this runs every 5 seconds
   setTimeout(function() {
     latestHint().done(function(data) {
+
       // display the image
       console.log(data);
+
+      if (data = "done_loading") {
+        location = "/";
+      }
     });
   }, 5000);
   </script>
