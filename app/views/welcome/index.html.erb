@@ -46,46 +46,8 @@ JS:
 -->
 
 
-<% elsif !current_user.watched_intro %>
+<%# elsif !current_user.watched_intro %>
 
-<!-- Slide the current person across the sreen to keep the user entertained -->
-
-<!-- AJAX call for the current person -->
-
-  <script>
-  function latestHint() {
-    return $.ajax({
-      url: '/users/latest_match'+"?authenticity_token="+encodeURIComponent(AUTH_TOKEN),
-      type: 'GET'
-    });
-  }
-
-  // //first image to be move across the screen
-  // var movingImage =
-
-  // this runs every 5 seconds
-  setInterval(function() {
-    latestHint().done(function(data) {
-
-      if (data === "done_loading") {
-        location = "/";
-      }
-
-      //create an image tag to move across the screen
-      var $movingImgage = $('<img id="moving-image">');
-      $movingImgage.attr('src', data.profile_picture);
-      $('body').append($movingImgage);
-
-      $("#moving-image").animate({right: "+=1800"}, 8000);
-
-      //delete that image tag after it goes across the screen
-      setTimeout(function() {
-        $('#moving-image').remove();
-      }, 4500);
-
-    });
-  }, 5000);
-  </script>
 
 <% else %>
 
