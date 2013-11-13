@@ -51,6 +51,37 @@ body {
   padding: 10px;
   font-family: 'Dosis', sans-serif;
 }
+.demo-col {
+  float: none;
+  margin: 0 auto;
+  text-align: left;
+  width: 100px;
+  padding: 10px;
+}
+
+.interested-in a {
+  width: 50%;
+  margin: 0 auto;
+}
+
+
+/* MAIN SCREEN */
+.navbar .navbar-brand {
+  font-family: 'Engagement', cursive;
+  font-size: 60px;
+  font-weight: 400;
+  border: 0;
+}
+.jumbotron {
+  background-color: rgba(44, 62, 80,0.9);
+  text-align: center;
+  min-height: 800px;
+  margin-bottom: 0px;
+}
+ul.nav.navbar-nav.navbar-right li{
+  float: none;
+}
+/* HINTS SCREEN */
 
 #hints {
   margin-top: 90px;
@@ -85,36 +116,6 @@ body {
   opacity: 0.2;
 }
 
-.demo-col {
-  float: none;
-  margin: 0 auto;
-  text-align: left;
-  width: 100px;
-  padding: 10px;
-}
-
-.interested-in a {
-  width: 50%;
-  margin: 0 auto;
-}
-
-
-/* MAIN SCREEN */
-.navbar .navbar-brand {
-  font-family: 'Engagement', cursive;
-  font-size: 60px;
-  font-weight: 400;
-  border: 0;
-}
-.jumbotron {
-  background-color: rgba(44, 62, 80,0.9);
-  text-align: center;
-  min-height: 800px;
-  margin-bottom: 0px;
-}
-ul.nav.navbar-nav.navbar-right li{
-  float: none;
-}
 
 /* LAYOUT */
 #flash-error{
