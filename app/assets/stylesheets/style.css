@@ -123,6 +123,24 @@ ul.nav.navbar-nav.navbar-right li{
 .red-ring {
   border: 4px solid #e74c3c;
 }
+
+body.modal-open,
+.modal-open .navbar-fixed-top,
+.modal-open .navbar-fixed-bottom {
+  margin-right: 0px;
+}
+
+.modal {
+  position: fixed;
+  top: 77px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1040;
+  display: none;
+  overflow: auto;
+  overflow-y: scroll;
+}
 .modal-header {
   text-align: center;
 }
@@ -140,7 +158,8 @@ ul.nav.navbar-nav.navbar-right li{
 }
 
 .img-thumbnail {
-  max-width: 300px;
+  height: 400px;
+  width: 400px;
 }
 
 /* LAYOUT */
