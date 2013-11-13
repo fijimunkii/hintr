@@ -134,6 +134,8 @@ class User < ActiveRecord::Base
 
     end # friends.each
 
+    self.watched_intro = true
+    self.save
   end
 
 end
