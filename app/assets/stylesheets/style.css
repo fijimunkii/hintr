@@ -108,13 +108,13 @@ ul.nav.navbar-nav.navbar-right li{
 }
 
 #hint-rows .match span {
+  margin: -10px;
   display: block;
   visibility: hidden;
   position: absolute;
   width: 100%;
   top: 100px;
   z-index: 200;
-  color: #00BD9C;
   font-family: 'Oxygen', sans-serif;
   font-size: 24px;
   font-weight: 300;
