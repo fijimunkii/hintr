@@ -12,9 +12,15 @@ $(function() {
 
   $('body').on('click', '.match', function() {
     showHint(this).done(function(data) {
-      console.log(data['name']);
+      console.log(data);
       var $modalDivLabel = $('#myModalLabel');
       $modalDivLabel.html(data['name']);
+      var $modalDivBody = $('.modal-body');
+      if (data['relationship_status'] && data['relationship_status'] !== null) {
+        $modalDivBody.html('<h5>I\'m ' + data['relationship_status'] +'</h5>');
+      } else {
+        $modalDivBody.html('<h5>I\'m not telling you my relationship status. <br> So you can assume I\'m single!</h5>');
+      }
     });
   });
 
