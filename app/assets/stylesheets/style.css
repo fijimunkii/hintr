@@ -116,7 +116,13 @@ ul.nav.navbar-nav.navbar-right li{
   opacity: 0.2;
 }
 
+.green-ring {
+  border: 4px solid #2ecc71;
+}
 
+.red-ring {
+  border: 4px solid #e74c3c;
+}
 /* LAYOUT */
 #flash-error{
   color:red;
