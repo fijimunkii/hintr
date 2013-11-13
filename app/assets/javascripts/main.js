@@ -12,7 +12,9 @@ $(function() {
 
   $('body').on('click', '.match', function() {
     showHint(this).done(function(data) {
-      console.log(data);
+      console.log(data['name']);
+      var $modalDivLabel = $('#myModalLabel');
+      $modalDivLabel.html(data['name']);
     });
   });
 
