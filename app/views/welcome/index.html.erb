@@ -46,30 +46,7 @@ JS:
 -->
 
 
-<% elsif !current_user.watched_intro %>
-
-  <script>
-  function latestHint() {
-    return $.ajax({
-      url: '/users/latest_match'+"?authenticity_token="+encodeURIComponent(AUTH_TOKEN),
-      type: 'GET'
-    });
-  }
-
-  // this runs every 5 seconds
-  setInterval(function() {
-    latestHint().done(function(data) {
-
-      // display the image
-      console.log(data);
-
-      if (data === "done_loading") {
-        location = "/";
-      }
-    });
-  }, 5000);
-  </script>
-
+<%# elsif !current_user.watched_intro %>
 
 
 <% else %>
