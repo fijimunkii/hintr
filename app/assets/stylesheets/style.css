@@ -112,6 +112,9 @@ body {
   min-height: 800px;
   margin-bottom: 0px;
 }
+ul.nav.navbar-nav.navbar-right li{
+  float: none;
+}
 
 /* LAYOUT */
 #flash-error{
