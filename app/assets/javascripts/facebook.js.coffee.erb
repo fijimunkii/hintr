@@ -7,7 +7,8 @@ jQuery ->
     cache: true
 
   window.fbAsyncInit = ->
-    FB.init(appId: '<%= ENV["HINTR_FACEBOOK_KEY"] %>', cookie: true)
+    FB.init(appId: '227056587454819', cookie: true)
+    <%# FB.init(appId: '<%= ENV["HINTR_FACEBOOK_KEY"] %>', cookie: true) %>
     <%# http://stackoverflow.com/a/7177200/2961808 %>
 
     $('#sign_in').click (e) ->
