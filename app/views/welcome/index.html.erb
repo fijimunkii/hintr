@@ -91,25 +91,28 @@ JS:
     };
 
     loadMatches().done(function(data) {
-      for (i=0;i<data.length;i++) {
+      for (i=0;i<data[1].length;i++) {
 
         // Set the match percentage
-        var matchPercentage = 100 * data[i]['weight'] / data[i]['max_weight'];
+        var matchPercentage = 100 * data[1][i]['weight'] / data[0];
         var $matchSpan = $('<span>');
-        $matchSpan.text(matchPercentage + '% match');
+        $matchSpan.text(Math.floor(matchPercentage) + '% match');
 
         // Create the match container
         var $matchDiv = $('<div>');
-        $matchDiv.attr('data-id', data[i]['related_user_id']);
+        $matchDiv.attr('data-id', data[1][i]['related_user_id']);
         $matchDiv.addClass('match col-sm-6 col-md-3 col-lg-3');
 
         // Load the image
         var $matchPic = $('<img>');
-        $matchPic.attr('src', data[i]['profile_picture']);
+        $matchPic.attr('src', data[1][i]['profile_picture']);
         $matchPic.attr('class', 'img-circle match-img');
 
         // Put the ring on her
-        if (data[i]['relationship_status'] === 'In a relationship') {
+        console.log(data[1][i]);
+        if (data[1][i]['relationship_status'] === 'In a relationship') {
+          $matchPic.addClass('red-ring');
+        } else if (data[1][i]['relationship_status'] == 'Married'){
           $matchPic.addClass('red-ring');
         } else {
           $matchPic.addClass('green-ring');

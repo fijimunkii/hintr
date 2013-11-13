@@ -102,6 +102,7 @@ class User < ActiveRecord::Base
           Match.where(user_id: self.id, related_user_id: new_user.id).first_or_initialize.tap do |match|
             match.user_id = self.id
             match.related_user_id = new_user.id
+            match.relationship_status = new_user.relationship_status
             match.name = new_user.name
             match.profile_picture = new_user.profile_picture
             likes = facebook { |fb| fb.fql_query("SELECT page_id, type FROM page_fan WHERE uid= #{self.fb_id} AND page_id IN (SELECT page_id FROM page_fan WHERE uid = #{new_user.fb_id})") }
@@ -110,6 +111,7 @@ class User < ActiveRecord::Base
 
             if self.max_weight < match.weight
               self.max_weight = match.weight
+              self.save
             end
 
             likes.each do |like|
