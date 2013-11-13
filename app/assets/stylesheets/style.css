@@ -31,14 +31,14 @@ body {
   text-align: center;
   width: 60%;
   margin: 0 auto;
-  margin-top: 1.5%;
+  margin-top: 2%;
 }
 
 .interested-in img {
   border: 3px solid #00BD9C;
   border-radius: 50%;
-  height: 350px;
-  width: 350px;
+  height: 300px;
+  width: 300px;
   font-family: 'Dosis', sans-serif;
 }
 
@@ -57,11 +57,22 @@ body {
   text-align: left;
   width: 100px;
   padding: 10px;
+  display: inline-block;
 }
 
 .interested-in a {
   width: 50%;
   margin: 0 auto;
+}
+
+
+/*  LOADING SCREEN */
+#moving-image {
+  height: 350px;
+  width: 350px;
+  position: absolute;
+  top: 300px;
+  border-radius: 50%;
 }
 
 
@@ -81,8 +92,9 @@ body {
 ul.nav.navbar-nav.navbar-right li{
   float: none;
 }
-/* HINTS SCREEN */
 
+
+/* HINTS SCREEN */
 #hints {
   margin-top: 90px;
 }
@@ -111,7 +123,6 @@ ul.nav.navbar-nav.navbar-right li{
   rgb(13, 96, 80) 2px 2px;
 }
 
-
 .hover {
   opacity: 0.2;
 }
@@ -123,6 +134,8 @@ ul.nav.navbar-nav.navbar-right li{
 .red-ring {
   border: 4px solid #e74c3c;
 }
+
+
 /* LAYOUT */
 #flash-error{
   color:red;
@@ -131,3 +144,6 @@ ul.nav.navbar-nav.navbar-right li{
 #flash-notice{
   color:green;
 }
+
+
+/* MEDIA QUERIES*/
