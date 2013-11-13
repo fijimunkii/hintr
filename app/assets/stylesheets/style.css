@@ -51,40 +51,6 @@ body {
   padding: 10px;
   font-family: 'Dosis', sans-serif;
 }
-
-#hints {
-  margin-top: 90px;
-}
-
-.img-circle {
-  min-width: 200px;
-  max-width: 200px;
-}
-.match {
-  text-align: center;
-  padding-bottom: 10px;
-}
-
-#hint-rows .match span {
-  display: block;
-  visibility: hidden;
-  position: absolute;
-  width: 100%;
-  top: 100px;
-  z-index: 200;
-  color: #00BD9C;
-  font-family: 'Oxygen', sans-serif;
-  font-size: 24px;
-  font-weight: 300;
-  text-shadow: rgb(13, 96, 80) 1px 1px,
-  rgb(13, 96, 80) 2px 2px;
-}
-
-
-.hover {
-  opacity: 0.2;
-}
-
 .demo-col {
   float: none;
   margin: 0 auto;
@@ -115,7 +81,48 @@ body {
 ul.nav.navbar-nav.navbar-right li{
   float: none;
 }
+/* HINTS SCREEN */
 
+#hints {
+  margin-top: 90px;
+}
+
+.img-circle {
+  width: 200px;
+  height: 200px;
+}
+.match {
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+#hint-rows .match span {
+  display: block;
+  visibility: hidden;
+  position: absolute;
+  width: 100%;
+  top: 100px;
+  z-index: 200;
+  color: #00BD9C;
+  font-family: 'Oxygen', sans-serif;
+  font-size: 24px;
+  font-weight: 300;
+  text-shadow: rgb(13, 96, 80) 1px 1px,
+  rgb(13, 96, 80) 2px 2px;
+}
+
+
+.hover {
+  opacity: 0.2;
+}
+
+.green-ring {
+  border: 4px solid #2ecc71;
+}
+
+.red-ring {
+  border: 4px solid #e74c3c;
+}
 /* LAYOUT */
 #flash-error{
   color:red;

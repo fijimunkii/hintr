@@ -48,12 +48,38 @@ JS:
 
 <%# elsif !current_user.watched_intro %>
 
+<<<<<<< HEAD
 <!-- Slide the current person across the sreen to keep the user entertained -->
 
 
 
 
 <!-- AJAX call for the current person -->
+=======
+  <script>
+  function latestHint() {
+    return $.ajax({
+      url: '/users/latest_match'+"?authenticity_token="+encodeURIComponent(AUTH_TOKEN),
+      type: 'GET'
+    });
+  }
+
+  // this runs every 5 seconds
+  setTimeout(function() {
+    latestHint().done(function(data) {
+
+      // display the image
+      console.log(data);
+
+      if (data = "done_loading") {
+        location = "/";
+      }
+    });
+  }, 5000);
+  </script>
+
+
+>>>>>>> 193b308e2d6bf1bc953be1858feefb3ef22b3e0e
 
 <% else %>
 
@@ -101,7 +127,12 @@ JS:
         // Set the match percentage
         var matchPercentage = 100 * data[1][i]['weight'] / data[0];
         var $matchSpan = $('<span>');
-        $matchSpan.text(Math.floor(matchPercentage) + '% match');
+
+        if (Math.floor(matchPercentage) === 100) {
+          $matchSpan.text('top match!')
+        } else {
+          $matchSpan.text(Math.floor(matchPercentage) + '% match');
+        }
 
         // Create the match container
         var $matchDiv = $('<div>');
@@ -111,7 +142,7 @@ JS:
         // Load the image
         var $matchPic = $('<img>');
         $matchPic.attr('src', data[1][i]['profile_picture']);
-        $matchPic.attr('class', 'img-circle match-img');
+        $matchPic.attr('class', 'img-circle');
 
         // Put the ring on her
         console.log(data[1][i]);

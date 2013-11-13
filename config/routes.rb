@@ -7,6 +7,7 @@ Hintr::Application.routes.draw do
   match 'signout', to: 'sessions#destroy', as: 'signout'
 
   post 'users/set_interest', to: 'users#set_interest'
+  get 'users/latest_match', to: 'users#latest_match'
 
   resources :users do
     match '/load_intro', to: 'users#load_intro'
