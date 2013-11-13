@@ -46,8 +46,58 @@ JS:
 -->
 
 
-<%# elsif !current_user.watched_intro %>
+<% elsif !current_user.watched_intro %>
 
+<!-- Slide the current person across the sreen to keep the user entertained -->
+
+<!-- AJAX call for the current person -->
+
+  <script>
+    function latestHint() {
+      return $.ajax({
+        url: '/users/latest_match'+"?authenticity_token="+encodeURIComponent(AUTH_TOKEN),
+        type: 'GET'
+      });
+    }
+
+  // //first image to be move across the screen
+  // var movingImage =
+
+  // this runs every 5 seconds
+  setInterval(function() {
+    latestHint().done(function(data) {
+      console.log(data);
+      if (data["done"] && data["done"] === "done") {
+        location = "/";
+      } else {
+        //create an image tag to move across the screen
+        var $movingImgage = $('<img id="moving-image">');
+        $movingImgage.attr('src', data.profile_picture);
+        $('body').append($movingImgage);
+        //start off of the screen
+        // $("#moving-image").css({right: "-400"});
+        //stop in the middle
+        $("#moving-image").animate({"marginLeft": "38%"}, 2000).delay(1000).animate({"marginLeft": "100%"}, 2000);
+
+
+        // TODO make this work later!
+
+        //setInteval for 3 seconds and keep going
+
+        // setTimeout(function() {
+        //   $("#moving-image").animate({right: "+=50%"}, 4000);
+        // }, 5000);
+
+        //delete that image tag after it goes across the screen
+
+        setTimeout(function() {
+          $('#moving-image').remove();
+        }, 6000);
+      }
+    });
+  }, 7000);
+
+  </script>
 
 <% else %>
 
