@@ -29,4 +29,13 @@ class UsersController < ApplicationController
     render json: sorted_matches
   end
 
+  def latest_match
+    user = current_user
+    response = Match.where(user_id: user.id).last
+    if user.watched_intro
+      response = 'done_loading'
+    end
+    render json: response
+  end
+
 end
