@@ -29,9 +29,9 @@
       Women
     </label>
   </div>
-   <a href="#fakelink" class="btn btn-lg btn-block btn-primary" id="interested-in-yes">
-     Yes!
-   </a>
+  <a href="#fakelink" class="btn btn-lg btn-block btn-primary" id="interested-in-yes">
+    Yes!
+  </a>
 </div>
 
 <!--
@@ -43,7 +43,7 @@ JS:
   Start scrapping,
   Set current_user.interested_in to true,
   Redirect to the next page
- -->
+-->
 
 
 <%# elsif !current_user.watched_intro %>
@@ -106,7 +106,7 @@ JS:
         // Load the image
         var $matchPic = $('<img>');
         $matchPic.attr('src', data[1][i]['profile_picture']);
-        $matchPic.attr('class', 'img-circle match-img');
+        $matchPic.attr('class', 'img-circle');
 
         // Put the ring on her
         console.log(data[1][i]);
