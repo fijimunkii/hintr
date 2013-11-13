@@ -9,7 +9,7 @@ $(function() {
 
   $('body').on('click', '.match', function() {
     showHint(this).done(function(data) {
-      console.log(data);
+      displayHint(data);
     });
   });
 
