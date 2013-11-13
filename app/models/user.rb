@@ -16,6 +16,7 @@
 #  oauth_token         :string(255)
 #  oauth_expires_at    :datetime
 #  watched_intro       :boolean
+#  max_weight          :integer
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #
@@ -106,6 +107,10 @@ class User < ActiveRecord::Base
             likes = facebook { |fb| fb.fql_query("SELECT page_id, type FROM page_fan WHERE uid= #{self.fb_id} AND page_id IN (SELECT page_id FROM page_fan WHERE uid = #{new_user.fb_id})") }
             match.weight = likes.length
             match.save!
+
+            if self.max_weight < match.weight
+              self.max_weight = match.weight
+            end
 
             likes.each do |like|
               Like.where(match_id: match.id, fb_id: like['page_id'].to_s).first_or_initialize.tap do |new_like|
