@@ -46,16 +46,23 @@ JS:
 -->
 
 
-<%# elsif !current_user.watched_intro %>
+<% elsif !current_user.watched_intro %>
 
-<<<<<<< HEAD
 <!-- Slide the current person across the sreen to keep the user entertained -->
 
+<div id="b" style="position:absolute; top:50px">B</div>
+
+<script>
+$(document).ready(function() {
+    $("#b").animate({left: "+=500"}, 2000);
+    $("#b").animate({left: "-=300"}, 1000);
+});
+</script>
 
 
 
 <!-- AJAX call for the current person -->
-=======
+
   <script>
   function latestHint() {
     return $.ajax({
@@ -79,7 +86,6 @@ JS:
   </script>
 
 
->>>>>>> 193b308e2d6bf1bc953be1858feefb3ef22b3e0e
 
 <% else %>
 
