@@ -46,7 +46,7 @@ JS:
 -->
 
 
-<%# elsif !current_user.watched_intro %>
+<% elsif !current_user.watched_intro %>
 
   <script>
   function latestHint() {
@@ -57,13 +57,13 @@ JS:
   }
 
   // this runs every 5 seconds
-  setTimeout(function() {
+  setInterval(function() {
     latestHint().done(function(data) {
 
       // display the image
       console.log(data);
 
-      if (data = "done_loading") {
+      if (data === "done_loading") {
         location = "/";
       }
     });
