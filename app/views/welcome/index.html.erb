@@ -50,17 +50,6 @@ JS:
 
 <!-- Slide the current person across the sreen to keep the user entertained -->
 
-<div id="b" style="position:absolute; top:50px">B</div>
-
-<script>
-$(document).ready(function() {
-    $("#b").animate({left: "+=500"}, 2000);
-    $("#b").animate({left: "-=300"}, 1000);
-});
-</script>
-
-
-
 <!-- AJAX call for the current person -->
 
   <script>
@@ -71,19 +60,32 @@ $(document).ready(function() {
     });
   }
 
+  // //first image to be move across the screen
+  // var movingImage =
+
   // this runs every 5 seconds
   setInterval(function() {
     latestHint().done(function(data) {
-      // display the image
-      console.log(data);
+
       if (data === "done_loading") {
         location = "/";
       }
+
+      //create an image tag to move across the screen
+      var $movingImgage = $('<img id="moving-image">');
+      $movingImgage.attr('src', data.profile_picture);
+      $('body').append($movingImgage);
+
+      $("#moving-image").animate({right: "+=1800"}, 8000);
+
+      //delete that image tag after it goes across the screen
+      setTimeout(function() {
+        $('#moving-image').remove();
+      }, 4500);
+
     });
   }, 5000);
   </script>
-
-
 
 <% else %>
 

@@ -65,6 +65,16 @@ body {
 }
 
 
+/*  LOADING SCREEN */
+#moving-image {
+  height: 350px;
+  width: 350px;
+  position: absolute;
+  top: 300px;
+  border-radius: 50%;
+}
+
+
 /* MAIN SCREEN */
 .navbar .navbar-brand {
   font-family: 'Engagement', cursive;
@@ -81,8 +91,9 @@ body {
 ul.nav.navbar-nav.navbar-right li{
   float: none;
 }
-/* HINTS SCREEN */
 
+
+/* HINTS SCREEN */
 #hints {
   margin-top: 90px;
 }
@@ -110,7 +121,6 @@ ul.nav.navbar-nav.navbar-right li{
   text-shadow: rgb(13, 96, 80) 1px 1px,
   rgb(13, 96, 80) 2px 2px;
 }
-
 
 .hover {
   opacity: 0.2;
