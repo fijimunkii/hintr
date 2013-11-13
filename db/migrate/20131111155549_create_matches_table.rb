@@ -4,6 +4,7 @@ class CreateMatchesTable < ActiveRecord::Migration
       t.integer :user_id
       t.integer :related_user_id
       t.integer :weight
+      t.string :relationship_status
       t.string :name
       t.string :profile_picture
 

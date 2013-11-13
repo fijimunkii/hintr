@@ -7,6 +7,9 @@ $(function() {
     });
   };
 
+  // TODO possibly set these events on the round picture, not the block
+  // totally not necessary for MVP
+
   $('body').on('click', '.match', function() {
     showHint(this).done(function(data) {
       displayHint(data);

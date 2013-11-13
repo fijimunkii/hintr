@@ -29,9 +29,9 @@
       Women
     </label>
   </div>
-   <a href="#fakelink" class="btn btn-lg btn-block btn-primary" id="interested-in-yes">
-     Yes!
-   </a>
+  <a href="#fakelink" class="btn btn-lg btn-block btn-primary" id="interested-in-yes">
+    Yes!
+  </a>
 </div>
 
 <!--
@@ -43,7 +43,7 @@ JS:
   Start scrapping,
   Set current_user.interested_in to true,
   Redirect to the next page
- -->
+-->
 
 
 <%# elsif !current_user.watched_intro %>
@@ -81,7 +81,7 @@ JS:
 
 <script>
 
-$(function() {
+  $(function() {
 
     var loadMatches = function loadMatches() {
       return $.ajax({
@@ -90,43 +90,44 @@ $(function() {
       });
     };
 
-  loadMatches().done(function(data) {
-      for (i=0;i<data.length;i++) {
-        //TODO set the border radius acording to relationship status
-        //console.log(data[i]["relationship_status"]);
-        var $matchDiv = $('<div>');
+    loadMatches().done(function(data) {
+      for (i=0;i<data[1].length;i++) {
+
+        // Set the match percentage
+        var matchPercentage = 100 * data[1][i]['weight'] / data[0];
         var $matchSpan = $('<span>');
-        var matchId = data[i]['related_user_id'];
-        $matchDiv.attr('data-id', matchId);
-        $matchDiv.attr('data-container', "body");
-        $matchDiv.attr('data-toggle', "popover");
-        $matchDiv.attr('data-placement', "bottom");
+        $matchSpan.text(Math.floor(matchPercentage) + '% match');
+
+        // Create the match container
+        var $matchDiv = $('<div>');
+        $matchDiv.attr('data-id', data[1][i]['related_user_id']);
         $matchDiv.addClass('match col-sm-6 col-md-3 col-lg-3');
+
+        // Load the image
         var $matchPic = $('<img>');
-        var dataWeight = data[i]['weight'];
-        $matchSpan.text(dataWeight + '% match');
-        $matchPic.attr('src', data[i]['profile_picture']);
+        $matchPic.attr('src', data[1][i]['profile_picture']);
         $matchPic.attr('class', 'img-circle match-img');
+
+        // Put the ring on her
+        console.log(data[1][i]);
+        if (data[1][i]['relationship_status'] === 'In a relationship') {
+          $matchPic.addClass('red-ring');
+        } else if (data[1][i]['relationship_status'] == 'Married'){
+          $matchPic.addClass('red-ring');
+        } else {
+          $matchPic.addClass('green-ring');
+        }
+
+        // Put it all together
         $matchDiv.append($matchPic);
         $matchDiv.append($matchSpan);
         $('#hint-rows').append($matchDiv);
         $('#show-hints').addClass('hidden');
       }
-    });
-});
 
-  var displayHint = function(data) {
-    debugger;
-    //need matches in here to be displayed
+    }); // loadMatches
 
-
-    // <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-original-title="" title="">
-    //       Popover on bottom
-    // </button>
-
-
-    // <div class="popover fade bottom in" style="top: 16941px; left: 787px; display: block;"><div class="arrow"></div><h3 class="popover-title" style="display: none;"></h3><div class="popover-content">Vivamus sagittis lacus vel augue laoreet rutrum faucibus.</div></div>
-  }
+  }); // onload
 
 </script>
 

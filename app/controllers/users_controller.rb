@@ -3,6 +3,8 @@ class UsersController < ApplicationController
   def show
     @user = User.find params[:id]
     render json: @user
+
+    #TODO include likes where user_id
   end
 
   def oauth_failure
@@ -23,7 +25,8 @@ class UsersController < ApplicationController
   def load_hints
     user = User.find params[:user_id]
     matches = Match.where(user_id: user.id)
-    render json: matches
+    sorted_matches = matches.sort_by{|match| match.weight}.reverse
+    render json: sorted_matches
   end
 
 end

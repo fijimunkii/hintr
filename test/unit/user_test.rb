@@ -16,6 +16,7 @@
 #  oauth_token         :string(255)
 #  oauth_expires_at    :datetime
 #  watched_intro       :boolean
+#  max_weight          :integer
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #
