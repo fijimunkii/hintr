@@ -48,7 +48,24 @@ JS:
 
 <%# elsif !current_user.watched_intro %>
 
-<!-- Play video -->
+  <script>
+  function latestHint() {
+    return $.ajax({
+      url: '/users/top_match',
+      type: 'GET'
+    });
+  }
+
+  // this runs every 5 seconds
+  setTimeout(function() {
+    latestHint().done(function(data) {
+      // display the image
+      console.log(data);
+    });
+  }, 5000);
+  </script>
+
+
 
 <% else %>
 
@@ -96,7 +113,12 @@ JS:
         // Set the match percentage
         var matchPercentage = 100 * data[1][i]['weight'] / data[0];
         var $matchSpan = $('<span>');
-        $matchSpan.text(Math.floor(matchPercentage) + '% match');
+
+        if (Math.floor(matchPercentage) === 100) {
+          $matchSpan.text('top match!')
+        } else {
+          $matchSpan.text(Math.floor(matchPercentage) + '% match');
+        }
 
         // Create the match container
         var $matchDiv = $('<div>');
