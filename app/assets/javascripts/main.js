@@ -15,7 +15,7 @@ $(function() {
       link: 'http://hintr.co',
       to: $(this).attr('data-fb_id')
     });
-  })
+  });
 
   // TODO possibly set these events on the round picture, not the block
   // totally not necessary for MVP
