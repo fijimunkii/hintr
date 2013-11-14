@@ -109,6 +109,10 @@ body {
 
 
 /* MAIN SCREEN */
+#location-select.form-control {
+  background: #1abc9c;
+  font-size: 16px;
+}
 .navbar .navbar-brand {
   font-family: 'Engagement', cursive;
   font-size: 60px;
@@ -128,10 +132,15 @@ ul.nav.navbar-nav.navbar-right li{
   display: inline-block;
   float: left;
 }
+
 @media (max-width: 690px) {
   ul.nav .navbar-nav .navbar-right li {
     text-align: center;
   }
+}
+
+#li-location {
+  padding-right: 175px;
 }
 
 /* HINTS SCREEN */
@@ -248,6 +257,7 @@ body.modal-open,
   margin-bottom: 0;
 }
 
+
 @media (max-width: 767px) {
   .img-circle {
     height: 400px;
@@ -262,6 +272,9 @@ body.modal-open,
 }
 
 @media (max-width: 991px) {
+  #li-location {
+    padding-right: 100px;
+  }
   .img-circle {
     height: 350px;
     width: 350px;

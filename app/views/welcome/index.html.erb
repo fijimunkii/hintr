@@ -137,15 +137,15 @@ JS:
   <div class="container">
     <div class="navbar-header">
       <a class="navbar-brand" href="/">hintr</a>
-      <select id="location-select"></select>
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
         <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
+        <i class="fui-list-columned"></i>
       </button>
     </div>
     <div class="navbar-collapse collapse" style="height: 1px;">
       <ul class="nav navbar-nav navbar-right">
+        <li id="li-location"><select id="location-select" class="form-control">sdf</select>
+        </li>
         <li>Signed in as <%= current_user.name %></li>
         <li class="active"><%= link_to "Sign out", signout_path, id: "sign_out" %></li>
       </ul>
