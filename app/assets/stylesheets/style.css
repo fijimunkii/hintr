@@ -164,6 +164,46 @@ body.modal-open,
   width: 400px;
 }
 
+@media (max-width: 480px) {
+  .img-circle {
+    height: 300px;
+    width: 300px;
+  }
+
+  #hint-rows .match span {
+    margin: -15px;
+    width: 100%;
+    top: 150px;
+    font-size: 30px;
+  }
+}
+
+@media (max-width: 767px) {
+  .img-circle {
+    height: 400px;
+    width: 400px;
+  }
+  #hint-rows .match span {
+    margin: -15px;
+    width: 100%;
+    top: 175px;
+    font-size: 48px;
+  }
+}
+
+@media (max-width: 991px) {
+  .img-circle {
+    height: 350px;
+    width: 350px;
+  }
+  #hint-rows .match span {
+    margin: -15px;
+    width: 100%;
+    top: 175px;
+    font-size: 48px;
+  }
+}
+
 /* LAYOUT */
 #flash-error{
   color:red;
