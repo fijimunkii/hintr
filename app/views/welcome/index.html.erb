@@ -51,6 +51,11 @@ JS:
 <!-- Slide the current person across the sreen to keep the user entertained -->
 
 <!-- AJAX call for the current person -->
+<div class="progress">
+  <div class="progress-bar" style="width: 45%;"></div>
+</div>
+
+
 
   <script>
     function latestHint() {
@@ -73,22 +78,12 @@ JS:
         //create an image tag to move across the screen
         var $movingImgage = $('<img id="moving-image">');
         $movingImgage.attr('src', data.profile_picture);
+        //color the border accoring to the relationship status
+
+
         $('body').append($movingImgage);
-        //start off of the screen
-        // $("#moving-image").css({right: "-400"});
         //stop in the middle
         $("#moving-image").animate({"marginLeft": "38%"}, 2000).delay(1000).animate({"marginLeft": "100%"}, 2000);
-
-
-        // TODO make this work later!
-
-        //setInteval for 3 seconds and keep going
-
-        // setTimeout(function() {
-        //   $("#moving-image").animate({right: "+=50%"}, 4000);
-        // }, 5000);
-
-        //delete that image tag after it goes across the screen
 
         setTimeout(function() {
           $('#moving-image').remove();
