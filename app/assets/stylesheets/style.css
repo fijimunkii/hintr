@@ -146,15 +146,6 @@ body.modal-open,
 }
 .modal-content {
   width: 100%;
-/*  background-color: #f9fafb;
-  border: 2px solid #ebedef;
-  border-radius: 7px;
-  -webkit-background-clip: border-box;
-  -moz-background-clip: border-box;
-  background-clip: border-box;
-  -webkit-box-shadow: -14px 14px 0 0 rgba(0, 0, 0, 0.35);
-  -moz-box-shadow: -14px 14px 0 0 rgba(0, 0, 0, 0.35);
-  box-shadow: -14px 14px 0 0 rgba(0, 0, 0, 0.35);*/
 }
 
 .img-thumbnail {
