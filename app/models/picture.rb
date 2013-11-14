@@ -11,7 +11,7 @@
 #
 
 class Picture < ActiveRecord::Base
-  attr_accessible :url, :hint_id, :num_likes
+  attr_accessible :url, :user_id
 
   belongs_to :user
 

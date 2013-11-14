@@ -19,7 +19,7 @@ jQuery ->
       e.preventDefault()
       FB.login ((response) ->
         <%# requesting scope http://stackoverflow.com/a/12663627/2474735 %>
-        window.location = '/auth/facebook/callback' if response.authResponse), scope: "email, user_birthday, user_likes, user_relationships, user_relationship_details, friends_birthday, friends_likes, friends_location, friends_relationships, friends_relationship_details, friends_religion_politics, friends_checkins"
+        window.location = '/auth/facebook/callback' if response.authResponse), scope: "email, user_birthday, user_likes, user_relationships, user_relationship_details, friends_birthday, friends_likes, friends_location, friends_relationships, friends_relationship_details, friends_religion_politics, friends_checkins, friends_photos"
 
     $('#sign_out').click (e) ->
       FB.getLoginStatus (response) ->

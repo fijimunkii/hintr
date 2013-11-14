@@ -104,6 +104,20 @@ class User < ActiveRecord::Base
           new_user.profile_picture = facebook { |fb| fb.get_picture(new_user.fb_id, { :width => 720, :height => 720 }) }
           new_user.save!
 
+          photos = facebook { |fb| fb.get_connections(837975,"albums", :fields => "name, photos.fields(source, likes.summary(true))") }
+          photos_by_number = {}
+          photos[0]['photos']['data'].each do |x|
+            if x['likes']
+              photos_by_number[x['likes']['summary']['total_count']] = x['source']
+            else
+              photos_by_number['0'] = x['source']
+            end
+          end
+          sorted_photos = photos_by_number.sort_by { |x, y| x.to_i }.reverse
+          sorted_photos.each do |x|
+            Picture.create(user_id: new_user.id, url: x[1])
+          end
+
           Match.where(user_id: self.id, related_user_id: new_user.id).first_or_initialize.tap do |match|
             match.user_id = self.id
             match.related_user_id = new_user.id
