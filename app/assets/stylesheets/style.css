@@ -1,7 +1,7 @@
 body {
   font-family: 'Dosis', sans-serif;
+  -webkit-text-size-adjust:none;
 }
-
 
 /* LOGIN SCREEN */
 .login-body {
@@ -115,6 +115,10 @@ body {
 }
 ul.nav.navbar-nav.navbar-right li{
   float: none;
+}
+.nav.navbar-right li {
+  display: inline-block;
+  float: left;
 }
 
 

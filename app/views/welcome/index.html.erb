@@ -128,13 +128,16 @@ JS:
   </script>
 
 <% else %>
+<script>
+  mixpanel.track("Video play");
+</script>
 
 
 <div id="navbar" class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <div id="location-buttons"></div>
       <a class="navbar-brand" href="/">hintr</a>
+      <select id="location-select"></select>
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
@@ -181,6 +184,20 @@ JS:
 
   $(function() {
 
+    $('#location-select').change(function() {
+      var selectedLocation = $('#location-select').val(),
+          dashIndex = selectedLocation.indexOf('-'),
+          location = selectedLocation.slice(0,dashIndex-1);
+
+      if (dashIndex === -1) {
+        $('.match').show();
+
+      } else{
+        $('.match').hide();
+        $('.match[data-location=\'' + location + '\'').show();
+      }
+    });
+
     var loadMatches = function loadMatches() {
       return $.ajax({
         url: "/users/<%= current_user.id %>/matches" + "?authenticity_token=" + encodeURIComponent(AUTH_TOKEN),
@@ -190,13 +207,23 @@ JS:
 
     loadMatches().done(function(data) {
 
-      // // location buttons
-      // for (var i=0; i<data[2].length; i++) {
-      //   var $button = $('<button>');
-      //   $button.text(data[2][i]);
-      //   $('#location-buttons').append($button);
-      // }
+      var $locationOption = $('<option>');
+      $locationOption.attr('value', 'all');
+      $locationOption.text('Filter by location');
+      $('#location-select').append($locationOption);
 
+      var $locationOption = $('<option>');
+      $locationOption.attr('value', 'all');
+      $locationOption.text('All Hints');
+      $('#location-select').append($locationOption);
+
+      // location buttons
+      for (var i=0; i<data[2].length; i++) {
+        var $locationOption = $('<option>');
+        $locationOption.attr('value', data[2][i]);
+        $locationOption.text(data[2][i]);
+        $('#location-select').append($locationOption);
+      }
 
       for (var i=0;i<data[1].length;i++) {
 

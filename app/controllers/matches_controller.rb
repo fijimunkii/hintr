@@ -7,7 +7,17 @@ class MatchesController < ApplicationController
     matches = Match.where(user_id: params[:user_id])
     matches = matches.sort_by { |match| match.weight }.reverse
 
-    locations = matches.map { |match| match.location }.uniq
+    location_freq = Hash.new(0)
+
+    matches.each do |match|
+      if match.location
+        location_freq[match.location] += 1
+      end
+    end
+
+    location_freq = location_freq.sort_by{|k, v| v}.reverse
+
+    locations = location_freq.map { |x, y| "#{x} - #{y}" }
 
     matches = [user.max_weight, matches, locations]
 
