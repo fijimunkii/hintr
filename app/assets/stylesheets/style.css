@@ -173,11 +173,20 @@ body.modal-open,
   text-align: center;
 }
 
-@media (max-width: 480px) {
-
-  .modal {
-  top: 77px;
+.modal-footer {
+  text-align: center;
+  margin-left: 15%;
+  margin-right: 15%;
 }
+
+@media (max-width: 480px) {
+/*  #navbar {
+    display: none;
+  }
+  .modal {
+    margin-top: -77px;
+  }*/
+
   .img-circle {
     height: 300px;
     width: 300px;
@@ -190,7 +199,10 @@ body.modal-open,
     font-size: 30px;
   }
 }
-
+.modal-footer {
+  text-align: center;
+  margin: 0;
+}
 .modal-footer .btn {
   display: inline-block;
   margin-bottom: 0;
@@ -198,8 +210,8 @@ body.modal-open,
 
 @media (max-width: 767px) {
   .modal {
-  top: 77px;
-}
+    top: 77px;
+  }
   .img-circle {
     height: 400px;
     width: 400px;
