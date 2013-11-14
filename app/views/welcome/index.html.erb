@@ -133,7 +133,8 @@ JS:
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <div id="location-buttons"></div>
+      <select id="location-select"></select>
+      <button id="location-button">Filter by location</button>
       <a class="navbar-brand" href="/">hintr</a>
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
         <span class="sr-only">Toggle navigation</span>
@@ -180,6 +181,12 @@ JS:
 
   $(function() {
 
+    $('body').on('click', '#location-button', function() {
+      var selectedLocation = $('#location-select').val();
+      $('.match').hide()
+      $('.match[data-location=\'' + selectedLocation + '\'').show();
+    });
+
     var loadMatches = function loadMatches() {
       return $.ajax({
         url: "/users/<%= current_user.id %>/matches" + "?authenticity_token=" + encodeURIComponent(AUTH_TOKEN),
@@ -191,9 +198,10 @@ JS:
 
       // location buttons
       for (var i=0; i<data[2].length; i++) {
-        var $button = $('<button>');
-        $button.text(data[2][i]);
-        $('#location-buttons').append($button);
+        var $locationOption = $('<option>');
+        $locationOption.attr('value', data[2][i]);
+        $locationOption.text(data[2][i]);
+        $('#location-select').append($locationOption);
       }
 
 
