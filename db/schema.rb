@@ -55,6 +55,8 @@ ActiveRecord::Schema.define(:version => 20131111212059) do
     t.datetime "oauth_expires_at"
     t.boolean  "watched_intro",       :default => false
     t.integer  "max_weight",          :default => 0
+    t.integer  "num_friends",         :default => 0
+    t.integer  "friends_processed",   :default => 0
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
   end

@@ -80,8 +80,8 @@ class User < ActiveRecord::Base
     user = facebook { |fb| fb.get_object('me', :fields => 'name,gender,relationship_status,interested_in,birthday,location,email') }
 
     friends = facebook { |fb| fb.get_connections(user['id'], 'friends') }
-    num_friends = friends.size
-    friends_processed = 0
+    self.num_friends = friends.size
+    self.friends_processed = 0
     friends.each_with_index do |friend, index|
 
       if index == 20
@@ -149,7 +149,6 @@ class User < ActiveRecord::Base
       end #if gender
 
       friends_processed += 1
-      CUSTOM_LOGGER.info("Processing Friends - #{friends_processed}/#{num_friends} Complete")
 
     end # friends.each
 

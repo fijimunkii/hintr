@@ -32,7 +32,8 @@ class UsersController < ApplicationController
 
   def latest_match
     user = current_user
-    response = Match.where(user_id: user.id).last
+    load_percentage = 100 * user.friends_processed / user.num_friends
+    response = [Match.where(user_id: user.id).last, load_percentage]
     if user.watched_intro
       response = {}
       response['done'] = 'done'
