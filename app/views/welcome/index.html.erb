@@ -130,7 +130,7 @@ JS:
 <% else %>
 
 
-<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div id="navbar" class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <select id="location-select"></select>
@@ -169,8 +169,9 @@ JS:
         <!-- img id="modal-img" class="img-thumbnail img-circle" src=""-->
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" data-dismiss="modal" class="btn btn-primary fb_message">Message</button>
+        <button type="button" class="btn btn-danger pull-left btn-embossed mlm">Remove Hint</button>
+        <button type="button" class="btn btn-default btn-huge btn-embossed mlm" data-dismiss="modal">Close</button>
+        <button type="button" data-dismiss="modal" class="btn btn-huge btn-social-facebook btn-embossed mlm fb_message pull-right"><i class="fui-facebook"></i>  Message</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

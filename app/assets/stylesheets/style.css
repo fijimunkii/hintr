@@ -167,10 +167,6 @@ body.modal-open,
   margin-right: 0px;
 }
 
-.modal {
-  top: 77px;
-}
-
 .modal .modal-body {
   max-height: 450px;
   overflow-y: auto;
@@ -200,7 +196,20 @@ body.modal-open,
   text-align: center;
 }
 
+.modal-footer {
+  text-align: center;
+  margin-left: 15%;
+  margin-right: 15%;
+}
+
 @media (max-width: 480px) {
+/*  #navbar {
+    display: none;
+  }
+  .modal {
+    margin-top: -77px;
+  }*/
+
   .img-circle {
     height: 300px;
     width: 300px;
@@ -213,8 +222,19 @@ body.modal-open,
     font-size: 30px;
   }
 }
+.modal-footer {
+  text-align: center;
+  margin: 0;
+}
+.modal-footer .btn {
+  display: inline-block;
+  margin-bottom: 0;
+}
 
 @media (max-width: 767px) {
+  .modal {
+    top: 77px;
+  }
   .img-circle {
     height: 400px;
     width: 400px;
