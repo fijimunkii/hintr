@@ -23,7 +23,15 @@ body {
 #intro p {
   font-size: 2em;
   color: #34495E;
+  margin-top: 20px;
 }
+
+#sign_in {
+  width: 180px;
+  margin-top: 80px;
+}
+
+
 
 
 /* INTERESTED IN SCREEN */
@@ -120,7 +128,11 @@ ul.nav.navbar-nav.navbar-right li{
   display: inline-block;
   float: left;
 }
-
+@media (max-width: 690px) {
+  ul.nav .navbar-nav .navbar-right li {
+    text-align: center;
+  }
+}
 
 /* HINTS SCREEN */
 #hints {
@@ -181,6 +193,9 @@ body.modal-open,
 }
 .modal-header {
   text-align: center;
+}
+.modal-title h5 {
+  font-family: 'Oxygen', sans-serif;
 }
 .modal-content {
   width: 100%;
@@ -258,6 +273,7 @@ body.modal-open,
     font-size: 48px;
   }
 }
+
 
 /* LAYOUT */
 #flash-error{
