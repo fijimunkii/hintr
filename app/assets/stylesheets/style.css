@@ -229,6 +229,7 @@ body.modal-open,
   margin-bottom: 0;
 }
 
+
 @media (max-width: 767px) {
   .img-circle {
     height: 400px;
