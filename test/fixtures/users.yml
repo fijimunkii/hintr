@@ -15,8 +15,10 @@
 #  date_of_birth       :date
 #  oauth_token         :string(255)
 #  oauth_expires_at    :datetime
-#  watched_intro       :boolean
-#  max_weight          :integer
+#  watched_intro       :boolean          default(FALSE)
+#  max_weight          :integer          default(0)
+#  num_friends         :integer          default(0)
+#  friends_processed   :integer          default(0)
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #

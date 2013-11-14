@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
 
   def show
+    # return the user requested by the modal
     @user = User.find params[:id]
     @pictures = Picture.where(user_id: @user.id)
     @match = Match.where(user_id: current_user.id, related_user_id: @user.id).first
@@ -16,22 +17,21 @@ class UsersController < ApplicationController
   end
 
   def set_interest
+    # after logging in for the first time:
+    # user.interested_in is set
+    # registration email is queued
+    # facebook scraping is queued
     @user = current_user
     @user.interested_in = params[:interested_in]
     @user.save
     Resque.enqueue(FacebookScraper, @user.id)
-    Resque.enqueue(RegistrationMailer, @user.id)
     render json: @user
   end
 
-  def load_hints
-    user = User.find params[:user_id]
-    matches = Match.where(user_id: user.id)
-    sorted_matches = matches.sort_by{|match| match.weight}.reverse
-    render json: sorted_matches
-  end
-
   def latest_match
+    # before user.watched_intro is true
+    # requests are made to this action
+    # returns the latest match added for the current_user
     user = current_user
     load_percentage = 100 * user.friends_processed / user.num_friends
     response = [Match.where(user_id: user.id).last, load_percentage]

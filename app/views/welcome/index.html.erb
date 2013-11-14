@@ -53,40 +53,68 @@ JS:
 <!-- Slide the current person across the sreen to keep the user entertained -->
 
 <!-- AJAX call for the current person -->
-<div class="progress">
-  <div class="progress-bar" style="width: 45%;"></div>
-</div>
-
 
   <script>
     function latestHint() {
       return $.ajax({
-        url: '/users/latest_match'+"?authenticity_token="+encodeURIComponent(AUTH_TOKEN),
+        url: '/users/latest_match'+"?authenticity_token=" + encodeURIComponent(AUTH_TOKEN),
         type: 'GET'
-      });
+      });S
     }
 
-  // //first image to be move across the screen
-  // var movingImage =
+    //Loading title
+    var $loadingTitle = $('<div class="loading-title">Loading...<div>');
+    $('body').append($loadingTitle);
+    //Loading text
+    var $loadingMessage = $('<div class="loading-message">We are setting up your future, please don\'t rush us, we don\'t want to screw it up.<div>');
+    $('body').append($loadingMessage);
 
-  // this runs every 5 seconds
+    //progress bar set to 0
+    var $progressDiv = $('<div class="progress">');
+    var $progressBar = $('<div class="progress-bar" style="width: 0%;">');
+    $progressDiv.append($progressBar);
+    $('body').append($progressDiv);
+
+    //Loading mini-message
+    var $loadingMiniMessage = $('<div class="loading-mini-message">(you can leave this page, we\'ll send you an email when we\'re done)<div>');
+    $('body').append($loadingMiniMessage);
+
+
+  // this runs every 7 seconds
   setInterval(function() {
     latestHint().done(function(data) {
 
       // percentage loaded
       console.log(data[1] + '% complete');
 
+      //progress bar being changed according to the progress %
+      $progressBar.attr("style", "width: " + data[1] + "%");
+
+
       if (data["done"] && data["done"] === "done") {
         location = "/";
       } else {
+
+
+
+        //progress bar
+        // <div class="progress">
+        //   <div class="progress-bar" style="width: 45%;"></div>
+        // </div>
+
 
         //create an image tag to move across the screen
         var $movingImgage = $('<img id="moving-image">');
         $movingImgage.attr('src', data[0].profile_picture);
         //color the border accoring to the relationship status
-
-
+        console.log(data[0]["relationship_status"]);
+        if (data[0]["relationship_status"] === "Single") {
+          $movingImgage.attr('class', 'green-ring');
+        } else {
+          $movingImgage.attr('class', 'red-ring');
+        }
         $('body').append($movingImgage);
+
         //stop in the middle
         $("#moving-image").animate({"marginLeft": "38%"}, 2000).delay(1000).animate({"marginLeft": "100%"}, 2000);
 
@@ -105,6 +133,7 @@ JS:
 <div id="navbar" class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
+      <div id="location-buttons"></div>
       <a class="navbar-brand" href="/">hintr</a>
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
         <span class="sr-only">Toggle navigation</span>
@@ -154,13 +183,22 @@ JS:
 
     var loadMatches = function loadMatches() {
       return $.ajax({
-        url: "/users/<%= current_user.id %>/matches",
+        url: "/users/<%= current_user.id %>/matches" + "?authenticity_token=" + encodeURIComponent(AUTH_TOKEN),
         type: 'get'
       });
     };
 
     loadMatches().done(function(data) {
-      for (i=0;i<data[1].length;i++) {
+
+      // location buttons
+      for (var i=0; i<data[2].length; i++) {
+        var $button = $('<button>');
+        $button.text(data[2][i]);
+        $('#location-buttons').append($button);
+      }
+
+
+      for (var i=0;i<data[1].length;i++) {
 
         // Set the match percentage
         var matchPercentage = 100 * data[1][i]['weight'] / data[0];
@@ -175,6 +213,8 @@ JS:
         // Create the match container
         var $matchDiv = $('<div>');
         $matchDiv.attr('data-id', data[1][i]['related_user_id']);
+        $matchDiv.attr('data-location', data[1][i]['location']);
+        // bootstrap stuff
         $matchDiv.attr('data-toggle', 'modal');
         $matchDiv.attr('data-target', '#myModal');
         $matchDiv.addClass('match col-sm-6 col-md-3 col-lg-3');
@@ -189,6 +229,8 @@ JS:
         if (data[1][i]['relationship_status'] === 'In a relationship') {
           $matchPic.addClass('red-ring');
         } else if (data[1][i]['relationship_status'] == 'Married'){
+          $matchPic.addClass('red-ring');
+        } else if (data[1][i]['relationship_status'] == 'Engaged'){
           $matchPic.addClass('red-ring');
         } else {
           $matchPic.addClass('green-ring');
