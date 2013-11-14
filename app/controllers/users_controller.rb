@@ -3,10 +3,9 @@ class UsersController < ApplicationController
   def show
     @user = User.find params[:id]
     @pictures = Picture.where(user_id: @user.id)
-    @likes = Like.where(user_id: @user.id)
+    @match = Match.where(user_id: current_user.id, related_user_id: @user.id).first
+    @likes = Like.where(match_id: @match.id)
     render json: [@user, @pictures, @likes]
-
-    #TODO include likes where user_id
   end
 
   def oauth_failure
