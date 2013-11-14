@@ -3,7 +3,8 @@ class UsersController < ApplicationController
   def show
     @user = User.find params[:id]
     @pictures = Picture.where(user_id: @user.id)
-    render json: [@user, @pictures]
+    @likes = Like.where(user_id: @user.id)
+    render json: [@user, @pictures, @likes]
 
     #TODO include likes where user_id
   end
