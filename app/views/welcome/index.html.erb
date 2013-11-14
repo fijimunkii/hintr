@@ -63,7 +63,7 @@ JS:
       return $.ajax({
         url: '/users/latest_match'+"?authenticity_token="+encodeURIComponent(AUTH_TOKEN),
         type: 'GET'
-      });
+      });S
     }
 
   // //first image to be move across the screen
@@ -152,7 +152,7 @@ JS:
 
     var loadMatches = function loadMatches() {
       return $.ajax({
-        url: "/users/<%= current_user.id %>/matches",
+        url: "/users/<%= current_user.id %>/matches" + "?authenticity_token=" + encodeURIComponent(AUTH_TOKEN),
         type: 'get'
       });
     };
