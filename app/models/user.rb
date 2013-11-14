@@ -160,7 +160,7 @@ class User < ActiveRecord::Base
     self.save
 
     # send email that profile is set up
-    Resque.enqueue(RegistrationMailer, @user.id)
+    Resque.enqueue(RegistrationMailer, self.id)
   end
 
 end
