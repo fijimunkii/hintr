@@ -144,17 +144,9 @@ body.modal-open,
   margin-right: 0px;
 }
 
-/*.modal {
-  position: fixed;
-  top: 77px;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1040;
-  display: none;
-  overflow: auto;
-  overflow-y: scroll;
-}*/
+.modal {
+  overflow-y: auto;
+}
 .modal-header {
   text-align: center;
 }
@@ -165,6 +157,10 @@ body.modal-open,
 .img-thumbnail {
   height: 400px;
   width: 400px;
+}
+
+.modal-body {
+  text-align: center;
 }
 
 @media (max-width: 480px) {
