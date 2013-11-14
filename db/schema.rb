@@ -26,10 +26,12 @@ ActiveRecord::Schema.define(:version => 20131111212059) do
     t.integer  "related_user_id"
     t.integer  "weight"
     t.string   "relationship_status"
+    t.string   "location"
     t.string   "name"
     t.string   "profile_picture"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
+    t.boolean  "is_removed",          :default => false
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
   end
 
   create_table "pictures", :force => true do |t|

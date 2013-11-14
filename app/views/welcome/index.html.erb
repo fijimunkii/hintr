@@ -133,6 +133,7 @@ JS:
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
+      <div id="location-buttons"></div>
       <a class="navbar-brand" href="/">hintr</a>
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
         <span class="sr-only">Toggle navigation</span>
@@ -187,7 +188,16 @@ JS:
     };
 
     loadMatches().done(function(data) {
-      for (i=0;i<data[1].length;i++) {
+
+      // location buttons
+      for (var i=0; i<data[2].length; i++) {
+        var $button = $('<button>');
+        $button.text(data[2][i]);
+        $('#location-buttons').append($button);
+      }
+
+
+      for (var i=0;i<data[1].length;i++) {
 
         // Set the match percentage
         var matchPercentage = 100 * data[1][i]['weight'] / data[0];
@@ -202,6 +212,8 @@ JS:
         // Create the match container
         var $matchDiv = $('<div>');
         $matchDiv.attr('data-id', data[1][i]['related_user_id']);
+        $matchDiv.attr('data-location', data[1][i]['location']);
+        // bootstrap stuff
         $matchDiv.attr('data-toggle', 'modal');
         $matchDiv.attr('data-target', '#myModal');
         $matchDiv.addClass('match col-sm-6 col-md-3 col-lg-3');
