@@ -1,3 +1,9 @@
+<% if Rails.env.development? %>
+fbKey = 227056587454819
+<% elsif Rails.env.production? %>
+fbKey = 225100650998953
+<% end %>
+
 jQuery ->
   $('body').prepend('<div id="fb-root"></div>')
 
@@ -7,7 +13,7 @@ jQuery ->
     cache: true
 
   window.fbAsyncInit = ->
-    FB.init(appId: 227056587454819, cookie: true)
+    FB.init(appId: fbKey, cookie: true)
 
     $('#sign_in').click (e) ->
       e.preventDefault()

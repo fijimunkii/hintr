@@ -46,31 +46,54 @@ JS:
 -->
 
 
+
 <% elsif !current_user.watched_intro %>
 
+
+<!-- Slide the current person across the sreen to keep the user entertained -->
+
+<!-- AJAX call for the current person -->
+<div class="progress">
+  <div class="progress-bar" style="width: 45%;"></div>
+</div>
+
+
   <script>
-  function latestHint() {
-    return $.ajax({
-      url: '/users/latest_match'+"?authenticity_token="+encodeURIComponent(AUTH_TOKEN),
-      type: 'GET'
-    });
-  }
+    function latestHint() {
+      return $.ajax({
+        url: '/users/latest_match'+"?authenticity_token="+encodeURIComponent(AUTH_TOKEN),
+        type: 'GET'
+      });
+    }
+
+  // //first image to be move across the screen
+  // var movingImage =
 
   // this runs every 5 seconds
   setInterval(function() {
     latestHint().done(function(data) {
-
-      // display the image
       console.log(data);
-
-      if (data === "done_loading") {
+      if (data["done"] && data["done"] === "done") {
         location = "/";
+      } else {
+        //create an image tag to move across the screen
+        var $movingImgage = $('<img id="moving-image">');
+        $movingImgage.attr('src', data.profile_picture);
+        //color the border accoring to the relationship status
+
+
+        $('body').append($movingImgage);
+        //stop in the middle
+        $("#moving-image").animate({"marginLeft": "38%"}, 2000).delay(1000).animate({"marginLeft": "100%"}, 2000);
+
+        setTimeout(function() {
+          $('#moving-image').remove();
+        }, 6000);
       }
     });
-  }, 5000);
+  }, 7000);
+
   </script>
-
-
 
 <% else %>
 
