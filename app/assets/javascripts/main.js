@@ -27,7 +27,7 @@ $(function() {
       var $modalDivBody = $('.modal-body');
       $modalDivBody.text('');
       // for (i=0; i<data[2].length;i++) {
-      //   $modalDivBody.html('<p>We both like: ' + data[2])
+      //   $modalDivBody.html('<p>We both like: ' + data[2][i] + 's,')
 
       // }
 
