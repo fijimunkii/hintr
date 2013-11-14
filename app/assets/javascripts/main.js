@@ -22,10 +22,14 @@ $(function() {
 
   $('body').on('click', '.match', function() {
     showHint(this).done(function(data) {
-      console.log(data[1][0]['url']);
+      console.log(data[2][0]);
       var $modalDivLabel = $('#myModalLabel');
       var $modalDivBody = $('.modal-body');
       $modalDivBody.text('');
+      // for (i=0; i<data[2].length;i++) {
+      //   $modalDivBody.html('<p>We both like: ' + data[2])
+
+      // }
 
         if (data[0]['relationship_status'] && data[0]['relationship_status'] !== null) {
           $modalDivLabel.html('<h5>' + data[0]['name'] + ': ' + data[0]['relationship_status'] +'</h5>');
@@ -34,7 +38,6 @@ $(function() {
         }
 // TODO add conditional for undefined url
         for (i=0;i<data[1].length;i++) {
-          console.log(data[1][i]['url']);
           $newImageDiv = $('<div>');
           $newImageDiv.addClass('crop');
           $newImageDiv.addClass('img-thumbnail');
