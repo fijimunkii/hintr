@@ -7,7 +7,6 @@ $(function() {
     });
   };
 
-
   // Open facebook message dialog on button click
   $('body').on('click', '.fb_message', function() {
     FB.ui({

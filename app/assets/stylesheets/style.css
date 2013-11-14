@@ -161,12 +161,16 @@ ul.nav.navbar-nav.navbar-right li{
   border: 4px solid #e74c3c;
 }
 
+/* MODAL */
 body.modal-open,
 .modal-open .navbar-fixed-top,
 .modal-open .navbar-fixed-bottom {
   margin-right: 0px;
 }
-
+.modal-backdrop.in {
+  color: #34495e;
+  opacity: 0.3;
+}
 .modal .modal-body {
   max-height: 450px;
   overflow-y: auto;
@@ -203,12 +207,6 @@ body.modal-open,
 }
 
 @media (max-width: 480px) {
-/*  #navbar {
-    display: none;
-  }
-  .modal {
-    margin-top: -77px;
-  }*/
 
   .img-circle {
     height: 300px;
@@ -232,9 +230,6 @@ body.modal-open,
 }
 
 @media (max-width: 767px) {
-  .modal {
-    top: 77px;
-  }
   .img-circle {
     height: 400px;
     width: 400px;
