@@ -135,7 +135,8 @@ JS:
         <h4 class="modal-title" id="myModalLabel">Modal title</h4>
       </div>
       <div class="modal-body">
-        <img id="modal-img" class="img-thumbnail img-circle" src="">
+        <!--img id="modal-profile" class="img-thumbnail img-circle" src="" -->
+        <!-- img id="modal-img" class="img-thumbnail img-circle" src=""-->
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -181,8 +182,7 @@ JS:
         var $matchPic = $('<img>');
         $matchPic.attr('src', data[1][i]['profile_picture']);
         $matchPic.attr('data-original', $(this).attr('src'));
-        $matchPic.attr('class', 'img-circle lazy');
-
+        $matchPic.attr('class', 'main-image img-circle lazy');
         // Put the ring on her
         console.log(data[1][i]);
         if (data[1][i]['relationship_status'] === 'In a relationship') {
