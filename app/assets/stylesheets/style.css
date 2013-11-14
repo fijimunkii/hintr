@@ -32,6 +32,8 @@ body {
 }
 
 
+
+
 /* INTERESTED IN SCREEN */
 .interested-in {
   text-align: center;
@@ -126,8 +128,11 @@ ul.nav.navbar-nav.navbar-right li{
   display: inline-block;
   float: left;
 }
-
-
+@media (max-width: 690px) {
+  ul.nav .navbar-nav .navbar-right li {
+    text-align: center;
+  }
+}
 
 /* HINTS SCREEN */
 #hints {
