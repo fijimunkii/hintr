@@ -10,7 +10,7 @@ $(function() {
 
   // Open facebook message dialog on button click
   $('body').on('click', '.fb_message', function() {
-    $('#myModal').modal({show:false});
+    $('#myModal').modal('hide');
     FB.ui({
       method: 'send',
       link: 'http://hintr.co',
