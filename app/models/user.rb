@@ -103,14 +103,16 @@ class User < ActiveRecord::Base
 
           photos = facebook { |fb| fb.get_connections(friend_object['id'],"albums", :fields => "name, photos.fields(source, likes.summary(true))") }
           photos_by_number = {}
-
-          photos[0]['photos']['data'].each do |x|
-            if x['likes']
-              photos_by_number[x['likes']['summary']['total_count']] = x['source']
-            else
-              photos_by_number['0'] = x['source']
+          if photos[0] && photos[0]['photos'] && photos[0]['photos']['data']
+            photos[0]['photos']['data'].each do |x|
+              if x['likes']
+                photos_by_number[x['likes']['summary']['total_count']] = x['source']
+              else
+                photos_by_number['0'] = x['source']
+              end
             end
           end
+
           sorted_photos = photos_by_number.sort_by { |x, y| x.to_i }.reverse
           sorted_photos.each do |x|
             Picture.create(user_id: new_user.id, url: x[1])
