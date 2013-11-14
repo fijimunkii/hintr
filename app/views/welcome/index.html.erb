@@ -62,14 +62,22 @@ JS:
       });
     }
 
+    //Loading title
+    var $loadingTitle = $('<div class="loading-title">Loading...<div>');
+    $('body').append($loadingTitle);
+    //Loading text
+    var $loadingMessage = $('<div class="loading-message">We are setting up your future, please don\'t rush us, we don\'t want to screw it up.<div>');
+    $('body').append($loadingMessage);
+
     //progress bar set to 0
     var $progressDiv = $('<div class="progress">');
     var $progressBar = $('<div class="progress-bar" style="width: 0%;">');
     $progressDiv.append($progressBar);
     $('body').append($progressDiv);
 
-    var $loadingMessage = $('<div class="loading-message">We are setting up your future, please don\'t rush us, we don\'t want to screw it up.<div>');
-    $('body').append($loadingMessage);
+    //Loading mini-message
+    var $loadingMiniMessage = $('<div class="loading-mini-message">(you can leave this page, we\'ll send you an email when we\'re done)<div>');
+    $('body').append($loadingMiniMessage);
 
 
   // this runs every 7 seconds
