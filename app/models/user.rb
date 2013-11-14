@@ -87,7 +87,7 @@ class User < ActiveRecord::Base
 
     friends.each_with_index do |friend, index|
 
-      break if index == 20
+      #break if index == 20
 
       friend_object = facebook { |fb| fb.get_object(friend['id'], :fields => 'name,gender,relationship_status,interested_in,birthday,location') }
       if friend_object['gender'] == self.interested_in #TODO make this work for 'both'
