@@ -14,7 +14,8 @@ gem 'mail'
 
 gem 'redis'
 gem 'resque', :require => "resque/server"
-# gem 'hirefire'
+
+# gem 'heroku' API for scaling worker https://gist.github.com/fijimunkii/7461381
 
 gem 'omniauth-facebook', '1.4.0' #https://github.com/mkdynamic/omniauth-facebook
 # downgraded to 1.4.0 because of this issue -- http://stackoverflow.com/a/11620929/2474735
