@@ -191,6 +191,11 @@ body.modal-open,
   }
 }
 
+.modal-footer .btn {
+  display: inline-block;
+  margin-bottom: 0;
+}
+
 @media (max-width: 767px) {
   .modal {
   top: 77px;
