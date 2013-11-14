@@ -122,6 +122,7 @@ ul.nav.navbar-nav.navbar-right li{
 }
 
 
+
 /* HINTS SCREEN */
 #hints {
   margin-top: 90px;
@@ -258,6 +259,11 @@ body.modal-open,
     font-size: 48px;
   }
 }
+
+.modal-title h5 {
+  font-family: 'Oxygen', sans-serif;
+}
+
 
 /* LAYOUT */
 #flash-error{
