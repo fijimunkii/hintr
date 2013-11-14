@@ -110,7 +110,7 @@ ul.nav.navbar-nav.navbar-right li{
   margin-top: 90px;
 }
 
-.img-circle {
+.main-image{
   width: 200px;
   height: 200px;
 }
@@ -155,6 +155,11 @@ body.modal-open,
 }
 
 .modal {
+  top: 77px;
+}
+
+.modal .modal-body {
+  max-height: 450px;
   overflow-y: auto;
 }
 .modal-header {
@@ -164,9 +169,18 @@ body.modal-open,
   width: 100%;
 }
 
-.img-thumbnail {
-  height: 400px;
-  width: 400px;
+.crop {
+  max-height: 600px;
+  width: 100%;
+  vertical-align: middle;
+  overflow:hidden;
+  margin: 30px 0 30px 0;
+}
+
+.modal-image{
+  height: auto;
+  width: auto;
+  padding-bottom: 20px;
 }
 
 .modal-body {

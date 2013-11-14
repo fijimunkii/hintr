@@ -22,19 +22,31 @@ $(function() {
 
   $('body').on('click', '.match', function() {
     showHint(this).done(function(data) {
-      console.log(data[1]);
+      console.log(data[1][0]['url']);
       var $modalDivLabel = $('#myModalLabel');
       var $modalDivBody = $('.modal-body');
-      var $modalDivImg = $('#modal-img');
-      if (data[0]['relationship_status'] && data[0]['relationship_status'] !== null) {
-        $modalDivLabel.html('<h5>' + data[0]['name'] + ': ' + data[0]['relationship_status'] +'</h5>');
-      } else {
-        $modalDivLabel.html('<h5>' + data[0]['name'] + ':</h5>' + '<p>I\'m not telling you my relationship status. <br> So you can assume I\'m single!</p>');
-      }
-      $modalDivImg.attr('src', data[0]['profile_picture']);
-      $modalDivBody.append($modalDivImg);
-      $modalDivImg.addClass('profile-pic');
+      $modalDivBody.text('');
+
+        if (data[0]['relationship_status'] && data[0]['relationship_status'] !== null) {
+          $modalDivLabel.html('<h5>' + data[0]['name'] + ': ' + data[0]['relationship_status'] +'</h5>');
+        } else {
+          $modalDivLabel.html('<h5>' + data[0]['name'] + ':</h5>' + '<p>I\'m not telling you my relationship status. <br> So you can assume I\'m single!</p>');
+        }
+// TODO add conditional for undefined url
+        for (i=0;i<data[1].length;i++) {
+          console.log(data[1][i]['url']);
+          $newImageDiv = $('<div>');
+          $newImageDiv.addClass('crop');
+          $newImageDiv.addClass('img-thumbnail');
+          $newImage = $('<img>');
+          $newImage.addClass('modal-image');
+          $newImage.attr('src', data[1][i]['url']);
+          $newImageDiv.append($newImage);
+          $modalDivBody.append($newImageDiv);
+        }
+
       $('.fb_message').attr('data-fb_id', data[0]['fb_id']);
+      $.scrollTop();
     });
   });
 
