@@ -45,7 +45,8 @@ class User < ActiveRecord::Base
 
     # if the user already exists, update
     # if user does not exist, create
-    where(auth.slice(:provider, :fb_id)).first_or_initialize.tap do |user|
+
+    User.where(fb_id: auth.uid).first_or_initialize.tap do |user|
 
       # initial pull from facebook
       user.provider = auth.provider
@@ -82,6 +83,10 @@ class User < ActiveRecord::Base
     num_friends = friends.size
     friends_processed = 0
     friends.each_with_index do |friend, index|
+
+      if index == 20
+        break
+      end
 
       friend_object = facebook { |fb| fb.get_object(friend['id'], :fields => 'name,gender,relationship_status,interested_in,birthday,location') }
       if friend_object['gender'] == self.interested_in #TODO make this work for 'both'
