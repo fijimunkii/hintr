@@ -26,10 +26,15 @@ $(function() {
       var $modalDivLabel = $('#myModalLabel');
       var $modalDivBody = $('.modal-body');
       $modalDivBody.text('');
-      // for (i=0; i<data[2].length;i++) {
-      //   $modalDivBody.html('<p>We both like: ' + data[2][i] + 's,')
-
-      // }
+      var $sharedLikes = $('<p>');
+      for (i=0; i<data[2].length;i++) {
+        if (i===0) {
+          $sharedLikes.text('We both like: ' + data[2][i] + 's');
+        } else {
+          $sharedLikes.text($sharedLikes.text() +', ' + data[2][i] + 's');
+        }
+      }
+        $modalDivBody.append($sharedLikes);
 
         if (data[0]['relationship_status'] && data[0]['relationship_status'] !== null) {
           $modalDivLabel.html('<h5>' + data[0]['name'] + ': ' + data[0]['relationship_status'] +'</h5>');

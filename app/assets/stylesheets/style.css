@@ -144,10 +144,6 @@ body.modal-open,
   margin-right: 0px;
 }
 
-.modal {
-  top: 77px;
-}
-
 .modal .modal-body {
   max-height: 450px;
   overflow-y: auto;
@@ -178,6 +174,10 @@ body.modal-open,
 }
 
 @media (max-width: 480px) {
+
+  .modal {
+  top: 77px;
+}
   .img-circle {
     height: 300px;
     width: 300px;
@@ -192,6 +192,9 @@ body.modal-open,
 }
 
 @media (max-width: 767px) {
+  .modal {
+  top: 77px;
+}
   .img-circle {
     height: 400px;
     width: 400px;
