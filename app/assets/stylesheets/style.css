@@ -141,7 +141,7 @@ body.modal-open,
   margin-right: 0px;
 }
 
-.modal {
+/*.modal {
   position: fixed;
   top: 77px;
   right: 0;
@@ -151,7 +151,7 @@ body.modal-open,
   display: none;
   overflow: auto;
   overflow-y: scroll;
-}
+}*/
 .modal-header {
   text-align: center;
 }
