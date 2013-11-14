@@ -114,7 +114,6 @@ class User < ActiveRecord::Base
             end
           end
           sorted_photos = photos_by_number.sort_by { |x, y| x.to_i }.reverse
-
           sorted_photos.each do |x|
             Picture.create(user_id: new_user.id, url: x[1])
           end
