@@ -101,8 +101,9 @@ class User < ActiveRecord::Base
           new_user.profile_picture = facebook { |fb| fb.get_picture(new_user.fb_id, { :width => 720, :height => 720 }) }
           new_user.save!
 
-          photos = facebook { |fb| fb.get_connections(837975,"albums", :fields => "name, photos.fields(source, likes.summary(true))") }
+          photos = facebook { |fb| fb.get_connections(new_user.fb_id,"albums", :fields => "name, photos.fields(source, likes.summary(true))") }
           photos_by_number = {}
+
           photos[0]['photos']['data'].each do |x|
             if x['likes']
               photos_by_number[x['likes']['summary']['total_count']] = x['source']
