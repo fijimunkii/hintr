@@ -15,6 +15,8 @@ class CreateUsers < ActiveRecord::Migration
       t.datetime :oauth_expires_at
       t.boolean :watched_intro, :default => false
       t.integer :max_weight, :default => 0
+      t.integer :num_friends, :default => 0
+      t.integer :friends_processed, :default => 0
 
       t.timestamps
     end
