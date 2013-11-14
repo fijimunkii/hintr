@@ -17,13 +17,14 @@ $(function() {
       var $modalDivBody = $('.modal-body');
       var $modalDivImg = $('#modal-img');
       if (data[0]['relationship_status'] && data[0]['relationship_status'] !== null) {
-        $modalDivBody.html('<h5>' + data[0]['relationship_status'] +'</h5>');
+        $modalDivLabel.html('<h5>' + data[0]['name'] + ': ' + data[0]['relationship_status'] +'</h5>');
       } else {
-        $modalDivBody.html('<h5>I\'m not telling you my relationship status. <br> So you can assume I\'m single!</h5>');
+        $modalDivLabel.html('<h5>' + data[0]['name'] + ': I\'m not telling you my relationship status. <br> So you can assume I\'m single!</h5>');
       }
-      $modalDivLabel.html(data[0]['name']);
       $modalDivImg.attr('src', data[0]['profile_picture']);
+      $modalDivBody.append($modalDivImg);
       $modalDivImg.addClass('profile-pic');
+      $('.fb_message').attr('data-fb_id', data[0]['fb_id']);
     });
   });
 

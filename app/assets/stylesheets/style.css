@@ -122,10 +122,12 @@ ul.nav.navbar-nav.navbar-right li{
   font-weight: 300;
   text-shadow: rgb(13, 96, 80) 1px 1px,
   rgb(13, 96, 80) 2px 2px;
+  cursor: pointer;
 }
 
 .hover {
   opacity: 0.2;
+  cursor: pointer;
 }
 
 .green-ring {
