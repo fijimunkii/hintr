@@ -82,6 +82,7 @@ class User < ActiveRecord::Base
     friends = facebook { |fb| fb.get_connections(user['id'], 'friends') }
     self.num_friends = friends.size
     self.friends_processed = 0
+
     friends.each_with_index do |friend, index|
 
       if index == 20
@@ -148,7 +149,8 @@ class User < ActiveRecord::Base
 
       end #if gender
 
-      friends_processed += 1
+      self.friends_processed += 1
+      self.save
 
     end # friends.each
 
