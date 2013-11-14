@@ -116,6 +116,10 @@ body {
 ul.nav.navbar-nav.navbar-right li{
   float: none;
 }
+.nav.navbar-right li {
+  display: inline-block;
+  float: left;
+}
 
 
 /* HINTS SCREEN */
