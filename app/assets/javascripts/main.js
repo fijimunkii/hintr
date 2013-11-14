@@ -23,7 +23,7 @@ $(function() {
 
   $('body').on('click', '.match', function() {
     showHint(this).done(function(data) {
-      console.log(data);
+      console.log(data[1]);
       var $modalDivLabel = $('#myModalLabel');
       var $modalDivBody = $('.modal-body');
       var $modalDivImg = $('#modal-img');
