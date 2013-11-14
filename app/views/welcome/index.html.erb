@@ -73,13 +73,16 @@ JS:
   // this runs every 5 seconds
   setInterval(function() {
     latestHint().done(function(data) {
-      console.log(data);
+
+      // percentage
+      console.log(data[1] + '% complete');
+
       if (data["done"] && data["done"] === "done") {
         location = "/";
       } else {
         //create an image tag to move across the screen
         var $movingImgage = $('<img id="moving-image">');
-        $movingImgage.attr('src', data.profile_picture);
+        $movingImgage.attr('src', data[0].profile_picture);
         //color the border accoring to the relationship status
 
 
