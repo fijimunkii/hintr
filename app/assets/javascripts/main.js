@@ -12,7 +12,18 @@ $(function() {
 
   $('body').on('click', '.match', function() {
     showHint(this).done(function(data) {
-      displayHint(data);
+      console.log(data);
+      var $modalDivLabel = $('#myModalLabel');
+      var $modalDivBody = $('.modal-body');
+      var $modalDivImg = $('#modal-img');
+      if (data['relationship_status'] && data['relationship_status'] !== null) {
+        $modalDivBody.html('<h5>' + data['relationship_status'] +'</h5>');
+      } else {
+        $modalDivBody.html('<h5>I\'m not telling you my relationship status. <br> So you can assume I\'m single!</h5>');
+      }
+      $modalDivLabel.html(data['name']);
+      $modalDivImg.attr('src', data['profile_picture']);
+      $modalDivImg.addClass('profile-pic');
     });
   });
 
@@ -37,5 +48,7 @@ $(function() {
     $(this.children[0]).removeClass('hover');
     $(this.children[1]).css('visibility', 'hidden');
   });
+
+
 
 });
