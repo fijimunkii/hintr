@@ -193,7 +193,7 @@ JS:
 
         }).done(function(data) {
           console.log(data);
-          $('.match[data-id=\'' + (parseInt(data[0])-1) +'\']').remove();
+          $('.match[data-match_id=\'' + data[0] +'\']').remove();
         });
       } // trueOrFalse
     });
@@ -254,6 +254,7 @@ JS:
         // Create the match container
         var $matchDiv = $('<div>');
         $matchDiv.attr('data-id', data[1][i]['related_user_id']);
+        $matchDiv.attr('data-match_id', data[1][i]['id']);
         $matchDiv.attr('data-location', data[1][i]['location']);
         // bootstrap stuff
         $matchDiv.attr('data-toggle', 'modal');

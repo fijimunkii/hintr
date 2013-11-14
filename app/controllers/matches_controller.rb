@@ -4,7 +4,7 @@ class MatchesController < ApplicationController
   def index
     user = current_user
 
-    matches = Match.where(user_id: params[:user_id])
+    matches = Match.where(is_removed: false, user_id: params[:user_id])
     matches = matches.sort_by { |match| match.weight }.reverse
 
     location_freq = Hash.new(0)
@@ -26,7 +26,7 @@ class MatchesController < ApplicationController
 
   def remove_match
     match = Match.find params[:id]
-    response = match.related_user_id
+    response = match.id
 
     if match.user_id == current_user.id
       match.is_removed = true

@@ -20,12 +20,13 @@ $(function() {
   // totally not necessary for MVP
 
   $('body').on('click', '.match', function() {
+    var matchId = $(this).attr('data-match_id');
     showHint(this).done(function(data) {
       console.log(data[2][0]);
       var $modalDivLabel = $('#myModalLabel');
       var $modalDivBody = $('.modal-body');
       $modalDivBody.text('');
-      $modalDivBody.attr('data-match_id', data[0]['id']);
+      $modalDivBody.attr('data-match_id', matchId);
       var $sharedLikes = $('<p>');
       for (i=0; i<data[2].length;i++) {
         if (i===0) {
