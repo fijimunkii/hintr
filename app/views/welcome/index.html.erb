@@ -57,7 +57,7 @@ JS:
   <script>
     function latestHint() {
       return $.ajax({
-        url: '/users/latest_match'+"?authenticity_token="+encodeURIComponent(AUTH_TOKEN),
+        url: '/users/latest_match'+"?authenticity_token=" + encodeURIComponent(AUTH_TOKEN),
         type: 'GET'
       });S
     }
