@@ -6,7 +6,8 @@ class UsersController < ApplicationController
     @pictures = Picture.where(user_id: @user.id)
     @match = Match.where(user_id: current_user.id, related_user_id: @user.id).first
     @likes = Like.where(match_id: @match.id)
-    render json: [@user, @pictures, @likes]
+    @uniq_likes = @likes.map { |like| like.like_type.titleize }.uniq
+    render json: [@user, @pictures, @uniq_likes]
   end
 
   def oauth_failure
