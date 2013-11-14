@@ -37,7 +37,7 @@ $(function() {
           console.log(data[1][i]['url']);
           $newImageDiv = $('<div>');
           $newImageDiv.addClass('crop');
-          $newImageDiv.addClass('img-circle');
+          $newImageDiv.addClass('img-thumbnail');
           $newImage = $('<img>');
           $newImage.addClass('modal-image');
           $newImage.attr('src', data[1][i]['url']);
