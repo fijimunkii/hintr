@@ -25,6 +25,7 @@ $(function() {
       var $modalDivLabel = $('#myModalLabel');
       var $modalDivBody = $('.modal-body');
       $modalDivBody.text('');
+      $modalDivBody.attr('data-match_id', data[0]['id']);
       var $sharedLikes = $('<p>');
       for (i=0; i<data[2].length;i++) {
         if (i===0) {

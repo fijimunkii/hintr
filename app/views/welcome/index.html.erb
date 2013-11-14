@@ -171,7 +171,7 @@ JS:
         <!-- img id="modal-img" class="img-thumbnail img-circle" src=""-->
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger pull-left btn-embossed mlm">Remove Hint</button>
+        <button type="button" class="remove-button btn btn-danger pull-left btn-embossed mlm" data-dismiss="modal">Remove Hint</button>
         <button type="button" class="btn btn-default btn-huge btn-embossed mlm" data-dismiss="modal">Close</button>
         <button type="button" data-dismiss="modal" class="btn btn-huge btn-social-facebook btn-embossed mlm fb_message pull-right"><i class="fui-facebook"></i>  Message</button>
       </div>
@@ -183,6 +183,20 @@ JS:
 <script>
 
   $(function() {
+
+    $('body').on('click', '.remove-button', function() {
+      var trueOrFalse = confirm('Are you sure?');
+      if (trueOrFalse) {
+        $.ajax({
+          url: '/remove_match/' + $('.modal-body').attr('data-match_id') + '?authenticity_token=' + encodeURIComponent(AUTH_TOKEN),
+          type: 'POST'
+
+        }).done(function(data) {
+          console.log(data);
+          $('.match[data-id=\'' + (parseInt(data[0])-1) +'\']').remove();
+        });
+      } // trueOrFalse
+    });
 
     $('#location-select').change(function() {
       var selectedLocation = $('#location-select').val(),

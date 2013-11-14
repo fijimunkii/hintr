@@ -26,11 +26,14 @@ class MatchesController < ApplicationController
 
   def remove_match
     match = Match.find params[:id]
-    match.is_removed = true
-    match.save
+    response = match.related_user_id
 
-    response = 'removed'
-    respond_with response
+    if match.user_id == current_user.id
+      match.is_removed = true
+      match.save
+    end
+
+    render json: [response]
   end
 
 end
