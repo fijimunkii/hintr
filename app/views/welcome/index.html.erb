@@ -53,10 +53,6 @@ JS:
 <!-- Slide the current person across the sreen to keep the user entertained -->
 
 <!-- AJAX call for the current person -->
-<div class="progress">
-  <div class="progress-bar" style="width: 45%;"></div>
-</div>
-
 
   <script>
     function latestHint() {
@@ -66,27 +62,51 @@ JS:
       });
     }
 
-  // //first image to be move across the screen
-  // var movingImage =
+    //progress bar set to 0
+    var $progressDiv = $('<div class="progress">');
+    var $progressBar = $('<div class="progress-bar" style="width: 0%;">');
+    $progressDiv.append($progressBar);
+    $('body').append($progressDiv);
 
-  // this runs every 5 seconds
+    var $loadingMessage = $('<div class="loading-message">We are setting up your future, please don\'t rush us, we don\'t want to screw it up.<div>');
+    $('body').append($loadingMessage);
+
+
+  // this runs every 7 seconds
   setInterval(function() {
     latestHint().done(function(data) {
 
       // percentage loaded
       console.log(data[1] + '% complete');
 
+      //progress bar being changed according to the progress %
+      $progressBar.attr("style", "width: " + data[1] + "%");
+
+
       if (data["done"] && data["done"] === "done") {
         location = "/";
       } else {
+
+
+
+        //progress bar
+        // <div class="progress">
+        //   <div class="progress-bar" style="width: 45%;"></div>
+        // </div>
+
 
         //create an image tag to move across the screen
         var $movingImgage = $('<img id="moving-image">');
         $movingImgage.attr('src', data[0].profile_picture);
         //color the border accoring to the relationship status
-
-
+        console.log(data[0]["relationship_status"]);
+        if (data[0]["relationship_status"] === "Single") {
+          $movingImgage.attr('class', 'green-ring');
+        } else {
+          $movingImgage.attr('class', 'red-ring');
+        }
         $('body').append($movingImgage);
+
         //stop in the middle
         $("#moving-image").animate({"marginLeft": "38%"}, 2000).delay(1000).animate({"marginLeft": "100%"}, 2000);
 

@@ -76,6 +76,12 @@ body {
   margin-left: -350px;
 }
 
+.loading-message {
+  text-align: center;
+  font-size: 3em;
+  margin-top: 3%;
+}
+
 
 /* MAIN SCREEN */
 .navbar .navbar-brand {
