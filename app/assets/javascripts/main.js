@@ -7,6 +7,16 @@ $(function() {
     });
   };
 
+
+  // Open facebook message dialog on button click
+  $('body').on('click', '.fb_message', function() {
+    FB.ui({
+      method: 'send',
+      link: 'http://hintr.co',
+      to: $(this).attr('data-fb_id')
+    });
+  })
+
   // TODO possibly set these events on the round picture, not the block
   // totally not necessary for MVP
 
