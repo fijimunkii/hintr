@@ -74,12 +74,13 @@ JS:
   setInterval(function() {
     latestHint().done(function(data) {
 
-      // percentage
+      // percentage loaded
       console.log(data[1] + '% complete');
 
       if (data["done"] && data["done"] === "done") {
         location = "/";
       } else {
+
         //create an image tag to move across the screen
         var $movingImgage = $('<img id="moving-image">');
         $movingImgage.attr('src', data[0].profile_picture);
