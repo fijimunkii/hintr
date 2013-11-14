@@ -52,9 +52,8 @@ $(function() {
           $newImageDiv.append($newImage);
           $modalDivBody.append($newImageDiv);
         }
-
+      $modalDivBody.scrollTop();
       $('.fb_message').attr('data-fb_id', data[0]['fb_id']);
-      $.scrollTop();
     });
   });
 
