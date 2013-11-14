@@ -23,6 +23,12 @@ body {
 #intro p {
   font-size: 2em;
   color: #34495E;
+  margin-top: 20px;
+}
+
+#sign_in {
+  width: 180px;
+  margin-top: 80px;
 }
 
 
