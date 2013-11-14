@@ -183,6 +183,9 @@ body.modal-open,
 .modal-header {
   text-align: center;
 }
+.modal-title h5 {
+  font-family: 'Oxygen', sans-serif;
+}
 .modal-content {
   width: 100%;
 }
@@ -258,10 +261,6 @@ body.modal-open,
     top: 175px;
     font-size: 48px;
   }
-}
-
-.modal-title h5 {
-  font-family: 'Oxygen', sans-serif;
 }
 
 
