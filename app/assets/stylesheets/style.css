@@ -90,9 +90,11 @@ body {
 }
 
 .loading-title {
+  margin: 0 auto;
   margin-top: 1%;
   font-size: 5em;
   text-align: center;
+  width: 200px;
 }
 
 .loading-message {
