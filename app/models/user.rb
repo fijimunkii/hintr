@@ -169,6 +169,7 @@ class User < ActiveRecord::Base
       match.profile_picture = new_user.profile_picture
 
       # ask facebook to do a join table on common likes
+      # https://developers.facebook.com/docs/technical-guides/fql/
       likes = facebook { |fb| fb.fql_query("SELECT page_id, type FROM page_fan WHERE uid= #{self.fb_id} AND page_id IN (SELECT page_id FROM page_fan WHERE uid = #{new_user.fb_id})") }
 
       # save the number of likes in common
