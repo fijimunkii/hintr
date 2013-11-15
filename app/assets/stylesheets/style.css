@@ -26,6 +26,7 @@ body {
   margin-top: 20px;
 }
 
+
 #sign_in {
   width: 180px;
   margin-top: 80px;
@@ -33,10 +34,9 @@ body {
 @media (max-width: 690px) {
   /* move the button up */
   #sign_in {
-    margin-top: 20px;
+    margin-top: 0px;
   }
 }
-
 
 /* INTERESTED IN SCREEN */
 .interested-in {
@@ -141,6 +141,11 @@ ul.nav.navbar-nav.navbar-right li{
   ul.nav .navbar-nav .navbar-right li {
     text-align: center;
   }
+
+  #sign_in {
+  width: 180px;
+  margin-top: 0px;
+}
 }
 
 #li-location {
