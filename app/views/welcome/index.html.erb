@@ -1,5 +1,9 @@
 <% if !current_user %>
 
+<script>
+  mixpanel.track("Main Page Visit");
+</script>
+
 <div class="jumbotron login-body">
   <div id="intro" class="container">
     <h1>hintr</h1>
@@ -12,6 +16,10 @@
 </div>
 
 <% elsif !current_user.interested_in %>
+
+<script>
+  mixpanel.track("Interested In Page Visit");
+</script>
 
 <!-- Ask for what user is interested in -->
 
@@ -49,6 +57,9 @@ JS:
 
 <% elsif !current_user.watched_intro %>
 
+<script>
+  mixpanel.track("Loading Page Visit");
+</script>
 
 <!-- Slide the current person across the sreen to keep the user entertained -->
 
@@ -128,8 +139,9 @@ JS:
   </script>
 
 <% else %>
+
 <script>
-  mixpanel.track("Main Page Visit");
+  mixpanel.track("Hint Page Visit");
 </script>
 
 
