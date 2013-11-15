@@ -96,10 +96,72 @@ class User < ActiveRecord::Base
 
     friends.each_with_index do |friend, index|
 
-      #break if index == 100
+      break if index == 100
 
       friend_object = facebook { |fb| fb.get_object(friend['id'], :fields => 'name,gender,relationship_status,interested_in,birthday,location') }
-      if friend_object['gender'] == interested_in_choice || (interested_in_choice[0] || interested_in_choice[1])
+
+      if friend_object['gender'] == interested_in_choice
+
+        #find the new_user or create a new one
+        User.where(fb_id: friend['id']).first_or_initialize.tap do |new_user|
+          if friend_object['location']
+            new_user.location = friend_object['location']['name'] if friend_object['location']['name']
+          end
+          new_user.fb_id = friend_object['id']
+          new_user.name = friend_object['name']
+          new_user.relationship_status = friend_object['relationship_status'] if friend_object['relationship_status']
+          new_user.date_of_birth = friend_object['birthday'] if friend_object['birthday']
+          new_user.gender = friend_object['gender'] if friend_object['gender']
+          new_user.profile_picture = facebook { |fb| fb.get_picture(new_user.fb_id, { :width => 720, :height => 720 }) }
+          new_user.save!
+
+          photos = facebook { |fb| fb.get_connections(friend_object['id'],"albums", :fields => "name, photos.fields(source, likes.summary(true))") }
+          photos_by_number = {}
+          if photos[0] && photos[0]['photos'] && photos[0]['photos']['data']
+            photos[0]['photos']['data'].each do |x|
+              if x['likes']
+                photos_by_number[x['likes']['summary']['total_count']] = x['source']
+              else
+                photos_by_number['0'] = x['source']
+              end
+            end
+          end
+
+          sorted_photos = photos_by_number.sort_by { |x, y| x.to_i }.reverse
+          sorted_photos.each do |x|
+            Picture.create(user_id: new_user.id, url: x[1])
+          end
+
+          Match.where(user_id: self.id, related_user_id: new_user.id).first_or_initialize.tap do |match|
+            match.user_id = self.id
+            match.related_user_id = new_user.id
+            match.relationship_status = new_user.relationship_status
+            match.location = new_user.location if new_user.location
+            match.name = new_user.name
+            match.profile_picture = new_user.profile_picture
+            likes = facebook { |fb| fb.fql_query("SELECT page_id, type FROM page_fan WHERE uid= #{self.fb_id} AND page_id IN (SELECT page_id FROM page_fan WHERE uid = #{new_user.fb_id})") }
+            match.weight = likes.length
+            match.save!
+
+            if self.max_weight < match.weight
+              self.max_weight = match.weight
+              self.save
+            end
+
+            likes.each do |like|
+              Like.where(match_id: match.id, fb_id: like['page_id'].to_s).first_or_initialize.tap do |new_like|
+                new_like.match_id = match.id
+                new_like.fb_id = like['page_id']
+                new_like.like_type = like['type']
+                new_like.save!
+              end
+            end
+
+          end # match
+
+        end # New User
+
+      elsif interested_in_choice.length == 2
 
         #find the new_user or create a new one
         User.where(fb_id: friend['id']).first_or_initialize.tap do |new_user|
