@@ -92,21 +92,21 @@ class User < ActiveRecord::Base
 
       # filter gender preference
       friend_object = facebook { |fb| fb.get_object(friend['id'], :fields => 'gender') }
-      if friend_object['gender'] == self.interested_in || (self.interested_in[0] || self.interested_in[1])
-        Resque.enqueue(FBupdateUser, self.id, friend['id'])
-        Resque.enqueue(FBupdatePhotos, self.id, friend['id'])
-        Resque.enqueue(FBupdateMatch, self.id, friend['id'])
+      if friend_object['gender'] == self.interested_in
+        Resque.enqueue(FacebookScraper, self.id, friend['id'])
+      # account for ["male, female"]
+      elsif self.interested_in.length == 2
+        Resque.enqueue(FacebookScraper, self.id, friend['id'])
+      end
+
+      # after queueing the last friend
+      # send out email and let user into site
+      if index == friends.length
+        Resque.enqueue(RegistrationFinisher, self.id)
       end
 
     end
 
-    # set a boolean so user can access site
-    self.watched_intro = true
-
-    self.save
-
-    # send email notifying that profile is set up
-    Resque.enqueue(RegistrationMailer, self.id)
   end
 
 
@@ -116,13 +116,18 @@ class User < ActiveRecord::Base
     # get the friend object from facebook
     friend_response = facebook { |fb| fb.get_connections(self.fb_id, facebook_id) }
 
-    # update only if the friend meets the gender request
-    if friend_response['gender'] == self.interested_in
-      friend = User.where(fb_id: friend['id'])
+    # find or create the User matching the facebook ID
+    friend = User.where(fb_id: friend_response['id']).first_or_initialize.tap do |user|
+
+      # update properties on the user
       %w{name relationship_status birthday gender}.each do |prop|
-        friend[prop] = friend_response[prop] if friend_response[prop]
+        user[prop] = friend_response[prop] if friend_response[prop]
       end
+
     end
+
+    friend.save
+
   end
 
 
