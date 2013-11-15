@@ -85,9 +85,22 @@ class User < ActiveRecord::Base
     self.num_friends = friends.size
     self.friends_processed = 0
 
+    i = 0
+    likes_in_common_fql = {}
+
+    friends.each_with_index do |friend, index|
+      break if index == 50
+      i+=1
+      likes_in_common_fql["query#{i}"] = "SELECT page_id, type FROM page_fan WHERE uid = #{self.fb_id} AND page_id IN (SELECT page_id FROM page_fan WHERE uid = #{friend['id']})"
+    end
+
+    likes_in_common = facebook { |fb| fb.fql_multiquery(likes_in_common_fql) }
+
+    binding.pry
+
+
     friends.each_with_index do |friend, index|
 
-      break if index == 100
 
       friend_object = facebook { |fb| fb.get_object(friend['id'], :fields => 'name,gender,relationship_status,interested_in,birthday,location') }
       if friend_object['gender'] == self.interested_in #TODO make this work for 'both'
