@@ -85,12 +85,25 @@ class User < ActiveRecord::Base
     self.num_friends = friends.size
     self.friends_processed = 0
 
+    interested_in_choice = case self.interested_in
+    when "male"
+      "male"
+    when "female"
+      "female"
+    when "both"
+      ["male", "female"]
+    end
+
     friends.each_with_index do |friend, index|
 
+<<<<<<< HEAD
       #break if index == 100
+=======
+      break if index == 100
+>>>>>>> 2d2eb03b9d47cf162306f3faa59f48a49a80128f
 
       friend_object = facebook { |fb| fb.get_object(friend['id'], :fields => 'name,gender,relationship_status,interested_in,birthday,location') }
-      if friend_object['gender'] == self.interested_in #TODO make this work for 'both'
+      if friend_object['gender'] == interested_in_choice || (interested_in_choice[1] && interested_in_choice[1])
 
         #find the new_user or create a new one
         User.where(fb_id: friend['id']).first_or_initialize.tap do |new_user|

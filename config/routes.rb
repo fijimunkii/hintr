@@ -6,6 +6,8 @@ Hintr::Application.routes.draw do
   match 'auth/failure', to: redirect('/')
   match 'signout', to: 'sessions#destroy', as: 'signout'
 
+  post 'remove_match/:id', to: 'matches#remove_match'
+
   post 'users/set_interest', to: 'users#set_interest'
   get 'users/latest_match', to: 'users#latest_match'
 

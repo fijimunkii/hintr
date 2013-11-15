@@ -137,15 +137,15 @@ JS:
   <div class="container">
     <div class="navbar-header">
       <a class="navbar-brand" href="/">hintr</a>
-      <select id="location-select"></select>
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
         <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
+        <i class="fui-list-columned"></i>
       </button>
     </div>
     <div class="navbar-collapse collapse" style="height: 1px;">
       <ul class="nav navbar-nav navbar-right">
+        <li id="li-location"><select id="location-select" class="form-control">sdf</select>
+        </li>
         <li>Signed in as <%= current_user.name %></li>
         <li class="active"><%= link_to "Sign out", signout_path, id: "sign_out" %></li>
       </ul>
@@ -171,7 +171,7 @@ JS:
         <!-- img id="modal-img" class="img-thumbnail img-circle" src=""-->
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger pull-left btn-embossed mlm">Remove Hint</button>
+        <button type="button" class="remove-button btn btn-danger pull-left btn-embossed mlm" data-dismiss="modal">Remove Hint</button>
         <button type="button" class="btn btn-default btn-huge btn-embossed mlm" data-dismiss="modal">Close</button>
         <button type="button" data-dismiss="modal" class="btn btn-huge btn-social-facebook btn-embossed mlm fb_message pull-right"><i class="fui-facebook"></i>  Message</button>
       </div>
@@ -183,6 +183,20 @@ JS:
 <script>
 
   $(function() {
+
+    $('body').on('click', '.remove-button', function() {
+      var trueOrFalse = confirm('Are you sure?');
+      if (trueOrFalse) {
+        $.ajax({
+          url: '/remove_match/' + $('.modal-body').attr('data-match_id') + '?authenticity_token=' + encodeURIComponent(AUTH_TOKEN),
+          type: 'POST'
+
+        }).done(function(data) {
+          console.log(data);
+          $('.match[data-match_id=\'' + data[0] +'\']').remove();
+        });
+      } // trueOrFalse
+    });
 
     $('#location-select').change(function() {
       var selectedLocation = $('#location-select').val(),
@@ -240,6 +254,7 @@ JS:
         // Create the match container
         var $matchDiv = $('<div>');
         $matchDiv.attr('data-id', data[1][i]['related_user_id']);
+        $matchDiv.attr('data-match_id', data[1][i]['id']);
         $matchDiv.attr('data-location', data[1][i]['location']);
         // bootstrap stuff
         $matchDiv.attr('data-toggle', 'modal');
