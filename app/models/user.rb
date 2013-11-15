@@ -89,9 +89,15 @@ class User < ActiveRecord::Base
 
     # for each friend, enqueue update tasks
     friends.each_with_index do |friend, index|
-      Resque.enqueue(FBupdateUser, self.id, friend['id'])
-      Resque.enqueue(FBupdatePhotos, self.id, friend['id'])
-      Resque.enqueue(FBupdateMatch, self.id, friend['id'])
+
+      # filter gender preference
+      friend_object = facebook { |fb| fb.get_object(friend['id'], :fields => 'gender') }
+      if friend_object['gender'] == self.interested_in || (self.interested_in[0] || self.interested_in[1])
+        Resque.enqueue(FBupdateUser, self.id, friend['id'])
+        Resque.enqueue(FBupdatePhotos, self.id, friend['id'])
+        Resque.enqueue(FBupdateMatch, self.id, friend['id'])
+      end
+
     end
 
     # set a boolean so user can access site

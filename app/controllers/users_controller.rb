@@ -22,6 +22,9 @@ class UsersController < ApplicationController
     # process_friends method is called
     @user = current_user
     @user.interested_in = params[:interested_in]
+    if @user.interested_in == "both"
+      @user.interested_in = ["male", "female"]
+    end
     @user.save
     @user.process_friends
     render json: @user
