@@ -28,7 +28,7 @@ $(function() {
       var $sharedLikes = $('<p>');
       for (i=0; i<data[2].length;i++) {
         if (i===0) {
-          $sharedLikes.text('We both like: ' + data[2][i] + 's');
+          $sharedLikes.text('You both are interested in: ' + data[2][i] + 's');
         } else {
           $sharedLikes.text($sharedLikes.text() +', ' + data[2][i] + 's');
         }
