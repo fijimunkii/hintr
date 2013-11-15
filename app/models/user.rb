@@ -47,7 +47,6 @@ class User < ActiveRecord::Base
 
     # if the user already exists, update
     # if user does not exist, create
-
     User.where(fb_id: auth.uid).first_or_initialize.tap do |user|
 
       # initial pull from facebook
@@ -67,6 +66,9 @@ class User < ActiveRecord::Base
     end
   end
 
+
+
+
   def facebook
     # creates a facebook variable that can be used
     # for interacting with the users info on facebook
@@ -77,113 +79,121 @@ class User < ActiveRecord::Base
     nil
   end
 
+
+
+
   def scrape_facebook
 
-    user = facebook { |fb| fb.get_object('me', :fields => 'name,gender,relationship_status,interested_in,birthday,location,email') }
+    # creates an array of the friends
+    friends = facebook { |fb| fb.get_connections(self.fb_id, 'friends') }
 
-    friends = facebook { |fb| fb.get_connections(user['id'], 'friends') }
-    self.num_friends = friends.size
-    self.friends_processed = 0
-
-    i = 0
-    likes_in_common_fql = {}
-
+    # on each friend, run an update task
     friends.each_with_index do |friend, index|
-      break if index == 50
-      likes_in_common_fql["query#{index}"] = "SELECT page_id, type FROM page_fan WHERE uid = #{self.fb_id} AND page_id IN (SELECT page_id FROM page_fan WHERE uid = #{friend['id']})"
+      self.fb_update_user(friend['id'])
+      self.fb_update_photos(friend['id'])
+      self.fb_update_match(friend['id'])
     end
 
-    likes_in_common = facebook { |fb| fb.fql_multiquery(likes_in_common_fql) }
-
-    binding.pry
-
-
-    friends.each_with_index do |friend, index|
-
-
-      friend_object = facebook { |fb| fb.get_object(friend['id'], :fields => 'name,gender,relationship_status,interested_in,birthday,location') }
-      if friend_object['gender'] == self.interested_in #TODO make this work for 'both'
-
-        #find the new_user or create a new one
-        User.where(fb_id: friend['id']).first_or_initialize.tap do |new_user|
-          if friend_object['location']
-            new_user.location = friend_object['location']['name'] if friend_object['location']['name']
-          end
-
-=begin
-          %w{relationship_status birthday gender ...}.each do |prop|
-            new_user[prop] = friend_object[prop] if friend_object[prop]
-          end
-
-=end
-
-          new_user.fb_id = friend_object['id']
-          new_user.name = friend_object['name']
-          new_user.relationship_status = friend_object['relationship_status'] if friend_object['relationship_status']
-          new_user.date_of_birth = friend_object['birthday'] if friend_object['birthday']
-          new_user.gender = friend_object['gender'] if friend_object['gender']
-          new_user.profile_picture = facebook { |fb| fb.get_picture(new_user.fb_id, { :width => 720, :height => 720 }) }
-          new_user.save!
-
-          photos = facebook { |fb| fb.get_connections(friend_object['id'],"albums", :fields => "name, photos.fields(source, likes.summary(true))") }
-          photos_by_number = {}
-
-          if photos[0] && photos[0]['photos'] && photos[0]['photos']['data']
-            photos[0]['photos']['data'].each do |x|
-              if x['likes']
-                photos_by_number[x['likes']['summary']['total_count']] = x['source']
-              else
-                photos_by_number['0'] = x['source']
-              end
-            end
-          end
-
-          sorted_photos = photos_by_number.sort_by { |x, y| x.to_i }.reverse
-          sorted_photos.each do |x|
-            Picture.create(user_id: new_user.id, url: x[1])
-          end
-
-          Match.where(user_id: self.id, related_user_id: new_user.id).first_or_initialize.tap do |match|
-            match.user_id = self.id
-            match.related_user_id = new_user.id
-            match.relationship_status = new_user.relationship_status
-            match.location = new_user.location if new_user.location
-            match.name = new_user.name
-            match.profile_picture = new_user.profile_picture
-            likes = facebook { |fb| fb.fql_query("SELECT page_id, type FROM page_fan WHERE uid= #{self.fb_id} AND page_id IN (SELECT page_id FROM page_fan WHERE uid = #{new_user.fb_id})") }
-            match.weight = likes.length
-            match.save!
-
-            if self.max_weight < match.weight
-              self.max_weight = match.weight
-              self.save
-            end
-
-            likes.each do |like|
-              Like.where(match_id: match.id, fb_id: like['page_id'].to_s).first_or_initialize.tap do |new_like|
-                new_like.match_id = match.id
-                new_like.fb_id = like['page_id']
-                new_like.like_type = like['type']
-                new_like.save!
-              end
-            end
-
-          end # match
-
-        end # New User
-
-      end #if gender
-
-      self.friends_processed += 1
-      self.save
-
-    end # friends.each
-
+    # set a boolean so user can access site
     self.watched_intro = true
+
     self.save
 
     # send email that profile is set up
     Resque.enqueue(RegistrationMailer, self.id)
   end
+
+
+
+
+  def fb_update_user(facebook_id)
+    # get the friend object from facebook
+    friend_response = facebook { |fb| fb.get_connections(self.fb_id, facebook_id) }
+
+    # update only if the friend meets the gender request
+    if friend_response['gender'] == self.interested_in
+      friend = User.where(fb_id: friend['id'])
+      %w{name relationship_status birthday gender}.each do |prop|
+        friend[prop] = friend_response[prop] if friend_response[prop]
+      end
+    end
+  end
+
+
+
+
+  def fb_update_pictures(facebook_id)
+
+    # grab all photo albums of user
+    photos = facebook { |fb| fb.get_connections(facebook_id,"albums", :fields => "name, photos.fields(source, likes.summary(true))") }
+    photos_by_number = {}
+
+    # check if profile pictures is accessible
+    if photos[0] && photos[0]['photos'] && photos[0]['photos']['data']
+      # process each profile picture
+      photos[0]['photos']['data'].each do |photo|
+        # if the picture has likes, add it to photos_by_number
+        # with an index of the number of likes
+        if photo['likes']
+          photos_by_number[photo['likes']['summary']['total_count']] = photo['source']
+        else
+          photos_by_number['0'] = photo['source']
+        end
+      end
+    end
+
+    # sort the photos by number of likes
+    sorted_photos = photos_by_number.sort_by { |x, y| x.to_i }.reverse
+
+    # create a new Picture object for each photo
+    sorted_photos.each do |photo|
+      Picture.create(user_id: new_user.id, url: photo[1])
+    end
+
+  end
+
+
+
+
+  def fb_update_match(facebook_id)
+    # locate the user for the matchmaking process
+    new_user = User.where(fb_id: facebook_id)
+
+    # create or update the match
+    Match.where(user_id: self.id, related_user_id: new_user.id).first_or_initialize.tap do |match|
+      match.user_id = self.id
+      match.related_user_id = new_user.id
+      match.relationship_status = new_user.relationship_status
+      match.location = new_user.location if new_user.location
+      match.name = new_user.name
+      match.profile_picture = new_user.profile_picture
+
+      # ask facebook to do a join table on common likes
+      likes = facebook { |fb| fb.fql_query("SELECT page_id, type FROM page_fan WHERE uid= #{self.fb_id} AND page_id IN (SELECT page_id FROM page_fan WHERE uid = #{new_user.fb_id})") }
+
+      # save the number of likes in common
+      match.weight = likes.length
+      match.save!
+
+      # update the current user's maximum compatibility
+      if self.max_weight < match.weight
+        self.max_weight = match.weight
+        self.save
+      end
+
+      # create or update a Like object for each like in common
+      likes.each do |like|
+        Like.where(match_id: match.id, fb_id: like['page_id'].to_s).first_or_initialize.tap do |new_like|
+          new_like.match_id = match.id
+          new_like.fb_id = like['page_id']
+          new_like.like_type = like['type']
+          new_like.save!
+        end
+      end
+
+    end # end of matchmaking process
+
+  end
+
 
 end
