@@ -30,6 +30,9 @@ body {
   width: 180px;
   margin-top: 80px;
 }
+@media (max-width: 690px) {
+  /* move the button up */
+}
 
 
 
