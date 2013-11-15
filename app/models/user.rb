@@ -85,14 +85,13 @@ class User < ActiveRecord::Base
   def process_friends
 
     # creates an array of the friends
-    friends = facebook { |fb| fb.get_connections(self.fb_id, 'friends') }
+    friends = facebook { |fb| fb.get_connections(self.fb_id, 'friends', :fields => 'gender') }
 
     # for each friend, enqueue update tasks
     friends.each_with_index do |friend, index|
 
       # filter gender preference
-      friend_object = facebook { |fb| fb.get_object(friend['id'], :fields => 'gender') }
-      if friend_object['gender'] == self.interested_in
+      if friend['gender'] == self.interested_in
         Resque.enqueue(FacebookScraper, self.id, friend['id'])
       # account for ["male, female"]
       elsif self.interested_in.length == 2
