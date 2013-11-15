@@ -96,15 +96,7 @@ class User < ActiveRecord::Base
 
     friends.each_with_index do |friend, index|
 
-<<<<<<< HEAD
-<<<<<<< HEAD
       #break if index == 100
-=======
-      break if index == 100
->>>>>>> 2d2eb03b9d47cf162306f3faa59f48a49a80128f
-=======
-      #break if index == 100
->>>>>>> 32852b2a96c75cfdc3f0ff618bf2cf49a4d7771f
 
       friend_object = facebook { |fb| fb.get_object(friend['id'], :fields => 'name,gender,relationship_status,interested_in,birthday,location') }
       if friend_object['gender'] == interested_in_choice || (interested_in_choice[1] && interested_in_choice[1])
