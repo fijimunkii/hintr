@@ -72,7 +72,7 @@ class User < ActiveRecord::Base
     # for interacting with the users info on facebook
     @facebook ||= Koala::Facebook::API.new(oauth_token)
     block_given? ? yield(@facebook) : @facebook
-  rescue Koala::Facebook::APIError => e
+    rescue Koala::Facebook::APIError => e
     logger.info e.to_s
     nil
   end
@@ -90,8 +90,7 @@ class User < ActiveRecord::Base
 
     friends.each_with_index do |friend, index|
       break if index == 50
-      i+=1
-      likes_in_common_fql["query#{i}"] = "SELECT page_id, type FROM page_fan WHERE uid = #{self.fb_id} AND page_id IN (SELECT page_id FROM page_fan WHERE uid = #{friend['id']})"
+      likes_in_common_fql["query#{index}"] = "SELECT page_id, type FROM page_fan WHERE uid = #{self.fb_id} AND page_id IN (SELECT page_id FROM page_fan WHERE uid = #{friend['id']})"
     end
 
     likes_in_common = facebook { |fb| fb.fql_multiquery(likes_in_common_fql) }
@@ -110,6 +109,14 @@ class User < ActiveRecord::Base
           if friend_object['location']
             new_user.location = friend_object['location']['name'] if friend_object['location']['name']
           end
+
+=begin
+          %w{relationship_status birthday gender ...}.each do |prop|
+            new_user[prop] = friend_object[prop] if friend_object[prop]
+          end
+
+=end
+
           new_user.fb_id = friend_object['id']
           new_user.name = friend_object['name']
           new_user.relationship_status = friend_object['relationship_status'] if friend_object['relationship_status']
@@ -120,6 +127,7 @@ class User < ActiveRecord::Base
 
           photos = facebook { |fb| fb.get_connections(friend_object['id'],"albums", :fields => "name, photos.fields(source, likes.summary(true))") }
           photos_by_number = {}
+
           if photos[0] && photos[0]['photos'] && photos[0]['photos']['data']
             photos[0]['photos']['data'].each do |x|
               if x['likes']
