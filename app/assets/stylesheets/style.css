@@ -32,6 +32,9 @@ body {
 }
 @media (max-width: 690px) {
   /* move the button up */
+  #sign_in {
+    margin-top: 20px;
+  }
 }
 
 
