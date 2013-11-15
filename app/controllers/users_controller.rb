@@ -19,12 +19,11 @@ class UsersController < ApplicationController
   def set_interest
     # after logging in for the first time:
     # user.interested_in is set
-    # registration email is queued
-    # facebook scraping is queued
+    # process_friends method is called
     @user = current_user
     @user.interested_in = params[:interested_in]
     @user.save
-    Resque.enqueue(FacebookScraper, @user.id)
+    @user.process_friends
     render json: @user
   end
 

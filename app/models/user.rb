@@ -82,16 +82,16 @@ class User < ActiveRecord::Base
 
 
 
-  def scrape_facebook
+  def process_friends
 
     # creates an array of the friends
     friends = facebook { |fb| fb.get_connections(self.fb_id, 'friends') }
 
-    # on each friend, run an update task
+    # for each friend, enqueue update tasks
     friends.each_with_index do |friend, index|
-      self.fb_update_user(friend['id'])
-      self.fb_update_photos(friend['id'])
-      self.fb_update_match(friend['id'])
+      Resque.enqueue(FBupdateUser, self.id, friend['id'])
+      Resque.enqueue(FBupdatePhotos, self.id, friend['id'])
+      Resque.enqueue(FBupdateMatch, self.id, friend['id'])
     end
 
     # set a boolean so user can access site
@@ -99,7 +99,7 @@ class User < ActiveRecord::Base
 
     self.save
 
-    # send email that profile is set up
+    # send email notifying that profile is set up
     Resque.enqueue(RegistrationMailer, self.id)
   end
 
@@ -122,7 +122,7 @@ class User < ActiveRecord::Base
 
 
 
-  def fb_update_pictures(facebook_id)
+  def fb_update_photos(facebook_id)
 
     # grab all photo albums of user
     photos = facebook { |fb| fb.get_connections(facebook_id,"albums", :fields => "name, photos.fields(source, likes.summary(true))") }
