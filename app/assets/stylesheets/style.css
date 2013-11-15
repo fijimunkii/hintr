@@ -103,8 +103,12 @@ body {
 
 /* MAIN SCREEN */
 #location-select.form-control {
-  background: #1abc9c;
+  background: #F2F9FE;
   font-size: 16px;
+  border: 2px solid #7f8c8d;
+}
+#location-select.form-control:hover {
+  border: 2px solid #2ECC71;
 }
 .navbar .navbar-brand {
   font-family: 'Engagement', cursive;
