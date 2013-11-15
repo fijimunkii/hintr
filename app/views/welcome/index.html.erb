@@ -74,8 +74,9 @@ JS:
     }
 
     //Loading title
-    var $loadingTitle = $('<div class="loading-title">Loading...<div>');
+    var $loadingTitle = $('<div class="loading-title" id="loading-gif">Loading...<div>');
     $('body').append($loadingTitle);
+
     //Loading text
     var $loadingMessage = $('<div class="loading-message">We are setting up your future, please don\'t rush us, we don\'t want to screw it up.<div>');
     $('body').append($loadingMessage);
@@ -90,9 +91,34 @@ JS:
     var $loadingMiniMessage = $('<div class="loading-mini-message">(you can leave this page, we\'ll send you an email when we\'re done)<div>');
     $('body').append($loadingMiniMessage);
 
+    function loadingDots() {
+      setTimeout(function() {
+        $("#loading-gif").text("Loading.");
+      }, 1000);
+      setTimeout(function() {
+        $("#loading-gif").text("Loading..");
+      }, 2000);
+      setTimeout(function() {
+        $("#loading-gif").text("Loading...");
+      }, 3000);
+      setTimeout(function() {
+        $("#loading-gif").text("Loading..");
+      }, 4000);
+      setTimeout(function() {
+        $("#loading-gif").text("Loading.");
+      }, 5000);
+      setTimeout(function() {
+        $("#loading-gif").text("Loading");
+      }, 6000);
+    }
+
+    loadingDots();
 
   // this runs every 7 seconds
   setInterval(function() {
+
+    loadingDots();
+
     latestHint().done(function(data) {
 
       // percentage loaded
@@ -105,7 +131,6 @@ JS:
       if (data["done"] && data["done"] === "done") {
         location = "/";
       } else {
-
 
 
         //progress bar
