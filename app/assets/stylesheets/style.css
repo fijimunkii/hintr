@@ -30,6 +30,8 @@ body {
 #sign_in {
   width: 180px;
   margin-top: 80px;
+  background-color: #34495e;
+  box-shadow: 0 2px 2px 1px rgba(0,0,0, .15);
 }
 @media (max-width: 690px) {
   /* move the button up */
