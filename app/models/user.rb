@@ -100,7 +100,7 @@ class User < ActiveRecord::Base
 
       friend_object = facebook { |fb| fb.get_object(friend['id'], :fields => 'name,gender,relationship_status,interested_in,birthday,location') }
 
-      if friend_object['gender'] == interested_in_choice
+      if friend_object && friend_object['gender'] && friend_object['gender'] == interested_in_choice
 
         #find the new_user or create a new one
         User.where(fb_id: friend['id']).first_or_initialize.tap do |new_user|
